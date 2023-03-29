@@ -1,10 +1,10 @@
 name: Test example positive
 on:
-#  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
-#  #
-#  # Added pull_request to register workflow from the PR.
-#  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
-#  pull_request: {}
+  #  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
+  #  #
+  #  # Added pull_request to register workflow from the PR.
+  #  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
+  #  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
@@ -25,10 +25,12 @@ jobs:
       - uses: ./
         id: current
         with:
-          param1: 'true'
+          component: foo
+          stack: core-ue1-dev
+          settings-path: secrets-arn
 
     outputs:
-      result: "${{ steps.current.outputs.result1 }}"
+      result: "${{ steps.current.outputs.value }}"
 
   assert:
     runs-on: ubuntu-latest
@@ -36,7 +38,7 @@ jobs:
     steps:
       - uses: nick-fields/assert-action@v1
         with:
-          expected: 'true'
+          expected: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3
           actual: "${{ needs.test.outputs.result }}"
 
   teardown:

@@ -1,0 +1,29 @@
+name: "GitHub Action for Extracting Atmos Settings"
+description: "A GitHub Action for Extracting Atmos Settings from Metadata"
+author: hello@cloudposse.com
+branding:
+  icon: "terminal"
+  color: "white"
+inputs:
+  component:
+    description: The atmos component extract the settings for.
+    required: true
+  stack:
+    description: The atmos stack extract the settings for.
+    required: true
+  settings-path:
+    description: The settings path using JSONPath expressions.
+    required: true
+outputs:
+  value:
+    description: "The value of the settings"
+    value: ${{ steps.settings.outputs.value }}
+runs:
+  using: "composite"
+  steps:
+    - id: settings
+      shell: bash
+      run: |
+        echo ${{ github.}}
+        data=$(atmos describe stacks -s ${{ inputs.stack }} --components ${{ inputs.component }} --sections=settings --format json| jq -c 'keys[] as $k | .[$k].components.terraform | keys[] as $c | .[$c].settings.${{ inputs.settings-path }}')
+        echo "DATA=$data >> $GITHUB_OUTPUT"
