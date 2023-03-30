@@ -11,8 +11,10 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup
-        run: echo "Do setup"
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: Setup atmos
+        uses: cloudposse/github-action-setup-atmos@v1.0.0
 
   test:
     runs-on: ubuntu-latest
