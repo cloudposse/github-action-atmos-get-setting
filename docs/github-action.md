@@ -1,13 +1,17 @@
 <!-- markdownlint-disable -->
+
 ## Inputs
 
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
-| param1 | Input parameter placeholder | true | true |
+| component | The atmos component extract the settings for. | N/A | true |
+| settings-path | The settings path using JSONPath expressions. | N/A | true |
+| stack | The atmos stack extract the settings for. | N/A | true |
+
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| result1 | Output result placeholder |
+| value | The value of the settings |
 <!-- markdownlint-restore -->
