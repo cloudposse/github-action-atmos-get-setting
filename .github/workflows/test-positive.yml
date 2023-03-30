@@ -1,26 +1,30 @@
-name: Test github-action-get-secret action
+name: Test atmos get setting action
 on:
   #  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
   #  #
   #  # Added pull_request to register workflow from the PR.
   #  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
-  pull_request: {}
+  #  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup terraform
-        uses: hashicorp/setup-terraform@v1
-      - name: Setup atmos
-        uses: cloudposse/github-action-setup-atmos@v1.0.0
+      - name: Setup
+        run: echo "Do setup"
 
   test:
     runs-on: ubuntu-latest
     continue-on-error: true
     needs: [setup]
     steps:
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Setup atmos
+        uses: cloudposse/github-action-setup-atmos@v1.0.0
+
       - name: Checkout
         uses: actions/checkout@v3
 
