@@ -1,34 +1,34 @@
-name: Test example positive
+name: Test atmos get setting action
 on:
-#  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
-#  #
-#  # Added pull_request to register workflow from the PR.
-#  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
-#  pull_request: {}
+  #  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
+  #  #
+  #  # Added pull_request to register workflow from the PR.
+  #  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
+  #  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup
-        run: echo "Do setup"
-
   test:
     runs-on: ubuntu-latest
     continue-on-error: true
-    needs: [setup]
+    outputs:
+      result: "${{ steps.current.outputs.value }}"
     steps:
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Setup atmos
+        uses: cloudposse/github-action-setup-atmos@v1.0.0
+        with:
+          install-wrapper: false
       - name: Checkout
         uses: actions/checkout@v3
 
       - uses: ./
         id: current
         with:
-          param1: 'true'
-
-    outputs:
-      result: "${{ steps.current.outputs.result1 }}"
+          component: foo
+          stack: core-ue1-dev
+          settings-path: secrets-arn
 
   assert:
     runs-on: ubuntu-latest
@@ -36,13 +36,5 @@ jobs:
     steps:
       - uses: nick-fields/assert-action@v1
         with:
-          expected: 'true'
+          expected: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3
           actual: "${{ needs.test.outputs.result }}"
-
-  teardown:
-    runs-on: ubuntu-latest
-    needs: [assert]
-    if: ${{ always() }}
-    steps:
-      - name: Tear down
-        run: echo "Do Tear down"
