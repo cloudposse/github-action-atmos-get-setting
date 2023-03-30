@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     needs: [setup]
+    outputs:
+      result: "${{ steps.current.outputs.value }}"
     steps:
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v1
@@ -36,9 +38,6 @@ jobs:
           component: foo
           stack: core-ue1-dev
           settings-path: secrets-arn
-
-    outputs:
-      result: "${{ steps.current.outputs.value }}"
 
   assert:
     runs-on: ubuntu-latest
