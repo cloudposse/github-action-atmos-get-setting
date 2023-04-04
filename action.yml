@@ -36,5 +36,5 @@ runs:
           printf '\n'
         }
         settings_path=$(quote_parts ${{ inputs.settings-path }})
-        value=$(atmos describe stacks -s ${{ inputs.stack }} --components ${{ inputs.component }} --sections=settings --format json| jq -rc 'keys[] as $k | .[$k].components.terraform | keys[] as $c | .[$c].settings.${settings_path}')
+        value=$(atmos describe stacks -s ${{ inputs.stack }} --components ${{ inputs.component }} --sections=settings --format json| jq -rc "keys[] as $k | .[$k].components.terraform | keys[] as $c | .[$c].settings.${settings_path}")
         echo "value=$value" >> $GITHUB_OUTPUT
