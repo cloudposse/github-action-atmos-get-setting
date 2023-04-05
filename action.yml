@@ -24,17 +24,5 @@ runs:
     - id: settings
       shell: bash
       run: |
-        quote_parts() {
-          # Split input string into an array of parts
-          IFS='.' read -ra parts <<< "$1"
-
-          # Wrap each part in quotes and join them back together with periods
-          printf '"%s"' "${parts[0]}"
-          for (( i=1; i<${#parts[@]}; i++ )); do
-            printf '."%s"' "${parts[$i]}"
-          done
-          printf '\n'
-        }
-        settings_path=$(quote_parts ${{ inputs.settings-path }})
         value=$(atmos describe stacks -s ${{ inputs.stack }} --components ${{ inputs.component }} --sections=settings --format json | jq -rc --arg key "${{inputs.settings-path}}" '.. | select(.settings)?| .settings | select(has($key | split(".")[])) | getpath($key | split("."))')
         echo "value=$value" >> $GITHUB_OUTPUT
