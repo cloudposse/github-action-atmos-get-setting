@@ -24,5 +24,5 @@ runs:
     - id: settings
       shell: bash
       run: |
-        value=$(atmos describe stacks -s ${{ inputs.stack }} --components ${{ inputs.component }} --sections=settings --format json| jq -rc 'keys[] as $k | .[$k].components.terraform | keys[] as $c | .[$c].settings."${{ inputs.settings-path }}"')
+        value=$(atmos describe stacks -s ${{ inputs.stack }} --components ${{ inputs.component }} --sections=settings --format json | jq -rc --arg key "${{inputs.settings-path}}" '.. | select(.settings)?| .settings | select(has($key | split(".")[])) | getpath($key | split("."))')
         echo "value=$value" >> $GITHUB_OUTPUT
