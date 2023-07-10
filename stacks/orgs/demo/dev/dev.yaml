@@ -12,13 +12,3 @@ components:
         environment: ue1
         stage: dev
         foo: bar
-
-    derived-foo:
-      metadata:
-        inherits:
-          - foo
-      settings:
-        level1:
-          level2:
-            level3:
-              secrets-arn: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes4

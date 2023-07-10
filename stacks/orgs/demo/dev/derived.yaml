@@ -1,0 +1,26 @@
+components:
+  terraform:
+    base:
+      metadata:
+        type: abstract
+      settings:
+        level1:
+          level2:
+            level3:
+              secrets-arn: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes1
+      vars:
+        namespace: demo
+        tenant: core
+        environment: ue1
+        stage: dev
+        foo: bar
+
+    derived:
+      metadata:
+        inherits:
+          - base
+      settings:
+        level1:
+          level2:
+            level3:
+              secrets-arn: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes4

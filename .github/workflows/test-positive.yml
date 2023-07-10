@@ -34,7 +34,7 @@ jobs:
       - uses: ./
         id: derived
         with:
-          component: derived-foo
+          component: derived
           stack: core-ue1-dev
           settings-path: level1.level2.level3.secrets-arn
 
