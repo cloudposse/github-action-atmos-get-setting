@@ -1,3 +1,4 @@
+# Test derived component overwriting 
 components:
   terraform:
     base:

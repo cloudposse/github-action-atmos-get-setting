@@ -1,12 +1,14 @@
-# Test basic use
+# Test use of atmos default settings with component settings
+settings:
+  level1:
+    example: result
+
 components:
   terraform:
-    foo:
+    test-defaults:
       settings:
         level1:
-          level2:
-            level3:
-              secrets-arn: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3
+          example: result
       vars:
         namespace: demo
         tenant: core
