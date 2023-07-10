@@ -1,15 +1,13 @@
 # Test derived component overwriting 
 components:
   terraform:
-    base:
+    derived/default:
       metadata:
-        component: foo
+        component: derived
         type: abstract
       settings:
         level1:
-          level2:
-            level3:
-              secrets-arn: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes1
+          example: default-value
       vars:
         namespace: demo
         tenant: core
@@ -19,11 +17,9 @@ components:
 
     derived:
       metadata:
-        component: foo
+        component: derived
         inherits:
-          - base
+          - derived/default
       settings:
         level1:
-          level2:
-            level3:
-              secrets-arn: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes4
+          example: result
