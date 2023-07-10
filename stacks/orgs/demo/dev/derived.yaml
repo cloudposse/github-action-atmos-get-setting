@@ -15,6 +15,8 @@ components:
         stage: dev
         foo: bar
 
+    # this is the component that we want the settings from
+    # the base or alternate components should not affect these settings
     derived:
       metadata:
         component: derived
@@ -23,3 +25,14 @@ components:
       settings:
         level1:
           example: result
+
+    # test adding an alternate component
+    # should not affect the target
+    derived/alternate:
+      metadata:
+        component: derived
+        inherits:
+          - derived/default
+      settings:
+        level1:
+          example: alternate
