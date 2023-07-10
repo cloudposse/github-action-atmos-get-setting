@@ -7,7 +7,7 @@ components:
         type: abstract
       settings:
         level1:
-          example: default-value
+          example: default
       vars:
         namespace: demo
         tenant: core

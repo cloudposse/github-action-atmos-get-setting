@@ -1,7 +1,7 @@
 # Test use of atmos default settings with component settings
 settings:
   level1:
-    example: result
+    example: default
 
 components:
   terraform:

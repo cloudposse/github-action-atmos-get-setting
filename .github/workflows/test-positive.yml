@@ -37,7 +37,7 @@ jobs:
         with:
           component: derived
           stack: core-ue1-dev
-          settings-path: level1.level2.level3.secrets-arn
+          settings-path: level1.example
 
       - uses: ./
         id: defaults
@@ -57,7 +57,7 @@ jobs:
 
       - uses: nick-fields/assert-action@v1
         with:
-          expected: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes4
+          expected: result
           actual: "${{ needs.test.outputs.derived_result }}"
 
       - uses: nick-fields/assert-action@v1
