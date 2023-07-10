@@ -42,7 +42,7 @@ jobs:
       - uses: ./
         id: defaults
         with:
-          component: derived
+          component: test-defaults
           stack: core-ue1-dev
           settings-path: level1.example
 
