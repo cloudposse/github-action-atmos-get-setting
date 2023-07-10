@@ -3,6 +3,7 @@ components:
   terraform:
     base:
       metadata:
+        component: foo
         type: abstract
       settings:
         level1:
@@ -18,6 +19,7 @@ components:
 
     derived:
       metadata:
+        component: foo
         inherits:
           - base
       settings:
