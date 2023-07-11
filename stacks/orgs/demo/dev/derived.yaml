@@ -15,8 +15,8 @@ components:
         stage: dev
         foo: bar
 
-    # this is the component that we want the settings from
-    # derived/default or derived/alternate components should not affect these settings
+    # This is the component that we want to test getting settings from.
+    # "derived/default" and "derived/alternate" components should not affect these settings
     derived:
       metadata:
         component: derived
@@ -26,8 +26,7 @@ components:
         level1:
           example: result
 
-    # test adding an alternate component
-    # should not affect the target
+    # Test adding an alternate component. This should not affect the true "derived" component.
     derived/alternate:
       metadata:
         component: derived
