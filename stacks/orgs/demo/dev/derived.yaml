@@ -16,7 +16,7 @@ components:
         foo: bar
 
     # this is the component that we want the settings from
-    # the base or alternate components should not affect these settings
+    # derived/default or derived/alternate components should not affect these settings
     derived:
       metadata:
         component: derived
