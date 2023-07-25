@@ -24,12 +24,6 @@ runs:
     - id: settings
       shell: bash
       run: |
-        debug=$(atmos describe component \
-          ${{ inputs.component }} \
-          -s ${{ inputs.stack }} \
-          --format json)
-        echo $debug
-
         value=$(atmos describe component \
           ${{ inputs.component }} \
           -s ${{ inputs.stack }} \
@@ -37,5 +31,4 @@ runs:
           jq --arg key ${{ inputs.settings-path }} \
           '.settings | getpath($key | split("."))' \
         )
-        echo "$value"
         echo "value=$value" >> $GITHUB_OUTPUT
