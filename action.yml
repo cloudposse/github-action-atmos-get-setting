@@ -29,5 +29,6 @@ runs:
           -s ${{ inputs.stack }} \
           --format json | \
           jq --arg key ${{inputs.settings-path}} \
-          '.. | select(.settings)?| .settings | select(has($key | split(".")[])) | getpath($key | split("."))'
+          '.. | select(.settings)?| .settings | select(has($key | split(".")[])) | getpath($key | split("."))' \
+        )
         echo "value=$value" >> $GITHUB_OUTPUT
