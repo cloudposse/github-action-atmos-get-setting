@@ -24,11 +24,17 @@ runs:
     - id: settings
       shell: bash
       run: |
+        debug=$(atmos describe component \
+          ${{ inputs.component }} \
+          -s ${{ inputs.stack }})
+        echo $debug
+
         value=$(atmos describe component \
           ${{ inputs.component }} \
           -s ${{ inputs.stack }} \
           --format json | \
-          jq --arg key ${{inputs.settings-path}} \
+          jq --arg key ${{ inputs.settings-path }} \
           '.. | select(.settings)?| .settings | select(has($key | split(".")[])) | getpath($key | split("."))' \
         )
+        echo "$value"
         echo "value=$value" >> $GITHUB_OUTPUT
