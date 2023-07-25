@@ -26,7 +26,8 @@ runs:
       run: |
         debug=$(atmos describe component \
           ${{ inputs.component }} \
-          -s ${{ inputs.stack }})
+          -s ${{ inputs.stack }} \
+          --format json)
         echo $debug
 
         value=$(atmos describe component \
@@ -34,7 +35,7 @@ runs:
           -s ${{ inputs.stack }} \
           --format json | \
           jq --arg key ${{ inputs.settings-path }} \
-          '.. | select(.settings)?| .settings | select(has($key | split(".")[])) | getpath($key | split("."))' \
+          '.settings | getpath($key | split("."))' \
         )
         echo "$value"
         echo "value=$value" >> $GITHUB_OUTPUT
