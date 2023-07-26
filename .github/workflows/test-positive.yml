@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     outputs:
-      base_result: "${{ steps.base.outputs.value }}"
-      derived_result: "${{ steps.derived.outputs.value }}"
-      defaults_result: "${{ steps.defaults.outputs.value }}"
+      base_result: ${{ steps.base.outputs.value }}
+      derived_result: ${{ steps.derived.outputs.value }}
+      defaults_result: ${{ steps.defaults.outputs.value }}
     steps:
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
