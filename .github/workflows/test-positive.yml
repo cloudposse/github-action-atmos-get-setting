@@ -28,7 +28,7 @@ jobs:
         with:
           component: foo
           stack: core-ue1-dev
-          settings-path: secrets-arn
+          settings-path: level1.level2.level3.secrets-arn
 
   assert:
     runs-on: ubuntu-latest
