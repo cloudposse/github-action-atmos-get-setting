@@ -12,7 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     outputs:
-      result: "${{ steps.current.outputs.value }}"
+      base_result: ${{ steps.base.outputs.value }}
+      derived_result: ${{ steps.derived.outputs.value }}
+      defaults_result: ${{ steps.defaults.outputs.value }}
     steps:
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
@@ -24,11 +26,25 @@ jobs:
         uses: actions/checkout@v3
 
       - uses: ./
-        id: current
+        id: base
         with:
           component: foo
           stack: core-ue1-dev
           settings-path: level1.level2.level3.secrets-arn
+
+      - uses: ./
+        id: derived
+        with:
+          component: derived
+          stack: core-ue1-dev
+          settings-path: level1.example
+
+      - uses: ./
+        id: defaults
+        with:
+          component: test-defaults
+          stack: core-ue1-dev
+          settings-path: level1.example
 
   assert:
     runs-on: ubuntu-latest
@@ -36,5 +52,15 @@ jobs:
     steps:
       - uses: nick-fields/assert-action@v1
         with:
-          expected: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3
-          actual: "${{ needs.test.outputs.result }}"
+          expected: '"arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"'
+          actual: ${{ needs.test.outputs.base_result }}
+
+      - uses: nick-fields/assert-action@v1
+        with:
+          expected: '"result"'
+          actual: ${{ needs.test.outputs.derived_result }}
+
+      - uses: nick-fields/assert-action@v1
+        with:
+          expected: '"result"'
+          actual: ${{ needs.test.outputs.defaults_result }}

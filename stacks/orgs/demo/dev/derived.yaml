@@ -1,0 +1,37 @@
+# Test derived component overwriting 
+components:
+  terraform:
+    derived/default:
+      metadata:
+        component: derived
+        type: abstract
+      settings:
+        level1:
+          example: default
+      vars:
+        namespace: demo
+        tenant: core
+        environment: ue1
+        stage: dev
+        foo: bar
+
+    # This is the component that we want to test getting settings from.
+    # "derived/default" and "derived/alternate" components should not affect these settings
+    derived:
+      metadata:
+        component: derived
+        inherits:
+          - derived/default
+      settings:
+        level1:
+          example: result
+
+    # Test adding an alternate component. This should not affect the true "derived" component.
+    derived/alternate:
+      metadata:
+        component: derived
+        inherits:
+          - derived/default
+      settings:
+        level1:
+          example: alternate
