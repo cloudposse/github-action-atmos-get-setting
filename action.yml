@@ -28,7 +28,8 @@ runs:
           ${{ inputs.component }} \
           -s ${{ inputs.stack }} \
           --format json | \
-          jq --arg key ${{ inputs.settings-path }} \
+          jq -rc --arg key ${{ inputs.settings-path }} \
           '.settings | getpath($key | split("."))' \
         )
+        echo $value
         echo "value=$value" >> $GITHUB_OUTPUT
