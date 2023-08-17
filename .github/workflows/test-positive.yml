@@ -52,7 +52,7 @@ jobs:
     steps:
       - uses: nick-fields/assert-action@v1
         with:
-          expected: '"arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"'
+          expected: 'arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3'
           actual: ${{ needs.test.outputs.base_result }}
 
       - uses: nick-fields/assert-action@v1
