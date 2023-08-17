@@ -31,4 +31,5 @@ runs:
           jq --arg key ${{ inputs.settings-path }} \
           '.settings | getpath($key | split("."))' \
         )
+        echo $value
         echo "value=$value" >> $GITHUB_OUTPUT
