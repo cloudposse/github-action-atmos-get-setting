@@ -25,6 +25,11 @@ runs:
       shell: bash
       run: |
         OUTPUT_FILE="${{ inputs.stack }}-${{ inputs.component }}.json"
+
+        # Since a component name may contain a slash, we need to create the directories for the output file
+	mkdir -p "$(dirname ${OUTPUT_FILE})"
+
+	# Extract the settings value from the component's stack configuration
         atmos describe component \
           ${{ inputs.component }} \
           -s ${{ inputs.stack }} \
