@@ -24,7 +24,9 @@ runs:
     - id: settings
       shell: bash
       run: |
-        OUTPUT_FILE="${{ inputs.stack }}-${{ inputs.component }}.json"
+        OUTPUT_FILE="$(tr / _ <<<${{ inputs.stack }}-${{ inputs.component }}.json)"
+
+        # Extract the settings value from the component's stack configuration
         atmos describe component \
           ${{ inputs.component }} \
           -s ${{ inputs.stack }} \
