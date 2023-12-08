@@ -96,12 +96,39 @@ components:
           with:
             component: foo
             stack: core-ue1-dev
-            settings-path: secrets-arn
+            settings-path: settings.secrets-arn
 
         - name: Set ENV Vars with AWS Secrets Manager Secret
           uses: aws-actions/aws-secretsmanager-get-secrets@v1
           with:
             secret-ids: ${{ steps.example.outputs.value }}
+```
+
+## Migrate `v0` to `v1`
+
+Starting from `v1` the action do not restrict component config just to `settings` section.
+If you want `v1` having the same behaviour as `v0` you should add `settings` in `settings-path` variable.
+
+```yaml
+  - name: Get Atmos Setting for Secret ARN
+    uses: cloudposse/github-action-atmos-get-setting@v1
+    id: example
+    with:
+      component: foo
+      stack: core-ue1-dev
+      settings-path: settings.secrets-arn  
+```
+
+same behaviour as
+
+```yaml
+  - name: Get Atmos Setting for Secret ARN
+    uses: cloudposse/github-action-atmos-get-setting@v0
+    id: example
+    with:
+      component: foo
+      stack: core-ue1-dev
+      settings-path: secrets-arn  
 ```
 
 
