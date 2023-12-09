@@ -106,8 +106,8 @@ components:
 
 ## Migrate `v1` to `v2`
 
-Starting from `v2` the action do not restrict component config just to `settings` section.
-If you want `v2` having the same behaviour as `v1` you should add `settings` in `settings-path` variable.
+Starting from `v2` the action is no longer restricted to retrieving the component config from only the `settings` section..
+If you want the same behavior in `v2`  as in`v1`, you should add the `settings` prefix to the value of the `settings-path` variable.
 
 ```yaml
   - name: Get Atmos Setting for Secret ARN
