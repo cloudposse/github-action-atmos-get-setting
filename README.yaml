@@ -82,9 +82,9 @@ usage: |-
   
   ## Migrating from `v1` to `v2`
   
-  Starting from `v2` the action is no longer restricted to retrieving the component config from only the `settings` section..
-  If you want the same behavior in `v2`  as in`v1`, you should add the `settings` prefix to the value of the `settings-path` variable.
-  
+  Starting from `v2` the action is no longer restricted to retrieving the component config from only the `settings` section.
+  If you want the same behavior in `v2`  as in`v1`, you should add the `settings.` prefix to the value of the `settings-path` variable.
+  For example, in `v2` you would provide `settings.secrets-arn` as the value to the `settings-path`
   ```yaml
     - name: Get Atmos Setting for Secret ARN
       uses: cloudposse/github-action-atmos-get-setting@v2
@@ -95,7 +95,7 @@ usage: |-
         settings-path: settings.secrets-arn  
   ```
   
-  same behaviour as
+  Which would provide the same output as passing only `secrets-arn` in `v1`
   
   ```yaml
     - name: Get Atmos Setting for Secret ARN
