@@ -104,7 +104,7 @@ components:
             secret-ids: ${{ steps.example.outputs.value }}
 ```
 
-## Migrate `v1` to `v2`
+## Migrating from `v1` to `v2`
 
 Starting from `v2` the action is no longer restricted to retrieving the component config from only the `settings` section..
 If you want the same behavior in `v2`  as in`v1`, you should add the `settings` prefix to the value of the `settings-path` variable.
