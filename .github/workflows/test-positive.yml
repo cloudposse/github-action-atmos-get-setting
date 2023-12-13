@@ -30,21 +30,21 @@ jobs:
         with:
           component: foo
           stack: core-ue1-dev
-          settings-path: level1.level2.level3.secrets-arn
+          settings-path: settings.level1.level2.level3.secrets-arn
 
       - uses: ./
         id: derived
         with:
           component: derived
           stack: core-ue1-dev
-          settings-path: level1.example
+          settings-path: settings.level1.example
 
       - uses: ./
         id: defaults
         with:
           component: test-defaults
           stack: core-ue1-dev
-          settings-path: level1.example
+          settings-path: settings.level1.example
 
   assert:
     runs-on: ubuntu-latest
