@@ -31,6 +31,6 @@ runs:
           ${{ inputs.component }} \
           -s ${{ inputs.stack }} \
           --format json \
-          --file "$OUTPUT_FILE" || echo '{}' > "$OUTPUT_FILE"
+          --file "$OUTPUT_FILE"
         value=$(jq -rc --arg key ${{ inputs.settings-path }} '. | getpath($key | split("."))' "$OUTPUT_FILE")
         echo "value=$value" >> $GITHUB_OUTPUT
