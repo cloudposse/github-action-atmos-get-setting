@@ -7,6 +7,9 @@ on:
   # pull_request: {}
   workflow_dispatch: {}
 
+env:
+  ATMOS_CLI_CONFIG_PATH: /tmp
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -21,6 +24,7 @@ jobs:
         uses: cloudposse/github-action-setup-atmos@1.0.2
         with:
           install-wrapper: false
+
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -30,8 +34,6 @@ jobs:
           component: foo
           stack: core-ue1-dev
           settings-path: settings.level1.level2.level3.secrets-arn
-        env:
-          ATMOS_CLI_CONFIG_PATH: /tmp
 
   assert:
     runs-on: ubuntu-latest
