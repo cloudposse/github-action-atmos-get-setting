@@ -9,6 +9,7 @@ on:
 
 env:
   ATMOS_CLI_CONFIG_PATH: /tmp
+  ATMOS_BASE_PATH: /tmp
 
 jobs:
   test:
