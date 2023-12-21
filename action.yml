@@ -32,6 +32,5 @@ runs:
           -s ${{ inputs.stack }} \
           --format json \
           --file "$OUTPUT_FILE"
-        value=$(jq -rc --arg key ${{ inputs.settings-path }} '. | getpath($key | split("."))' "$OUTPUT_FILE")
-        cat $OUTPUT_FILE
+        value=$(jq -rc --arg key ${{ inputs.settings-path }} '. | getpath($key | split(".")) | if . == null then "" else . end' "$OUTPUT_FILE")
         echo "value=$value" >> $GITHUB_OUTPUT
