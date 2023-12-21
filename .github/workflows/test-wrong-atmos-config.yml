@@ -31,7 +31,7 @@ jobs:
           stack: core-ue1-dev
           settings-path: settings.level1.level2.level3.secrets-arn
         env:
-          ATMOS_CLI_CONFIG_PATH: ./atmos-config-wrong.yaml
+          ATMOS_CLI_CONFIG_PATH: /tmp
 
   assert:
     runs-on: ubuntu-latest
