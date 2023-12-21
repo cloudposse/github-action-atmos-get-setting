@@ -32,5 +32,10 @@ runs:
           -s ${{ inputs.stack }} \
           --format json \
           --file "$OUTPUT_FILE"
+        RESULT=$?
+        if [ $RESULT -ne 0 ]; then
+          echo "Atmos config not found"
+          exit 1
+        fi
         value=$(jq -rc --arg key ${{ inputs.settings-path }} '. | getpath($key | split(".")) | if . == null then "" else . end' "$OUTPUT_FILE")
         echo "value=$value" >> $GITHUB_OUTPUT
