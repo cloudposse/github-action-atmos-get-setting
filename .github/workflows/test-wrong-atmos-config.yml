@@ -1,0 +1,45 @@
+name: Test wrong atmos config
+on:
+  #  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
+  #  #
+  #  # Added pull_request to register workflow from the PR.
+  #  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    outputs:
+      result: ${{ steps.current.outputs.value }}
+      outcome: ${{ steps.current.outcome }}
+    steps:
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v2
+      - name: Setup atmos
+        uses: cloudposse/github-action-setup-atmos@1.0.2
+        with:
+          install-wrapper: false
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - uses: ./
+        id: current
+        with:
+          component: foo
+          stack: core-ue1-dev
+          settings-path: settings.level1.level2.level3.secrets-arn
+        env:
+          ATMOS_CLI_CONFIG_PATH: ./atmos-config-wrong.yaml
+
+  assert:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: [test]
+    steps:
+      - uses: nick-fields/assert-action@v1
+        with:
+          expected: failure
+          actual: ${{ needs.test.outputs.outcome }}
+
