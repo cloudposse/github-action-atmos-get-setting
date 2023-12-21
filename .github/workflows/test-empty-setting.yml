@@ -1,10 +1,10 @@
-name: Test non-existent component stack
+name: Test non-existent setting
 on:
   #  # Uncomment when test added first time to register workflow and comment it back after workflow would be registered
   #  #
   #  # Added pull_request to register workflow from the PR.
   #  # Read more https://stackoverflow.com/questions/63362126/github-actions-how-to-run-a-workflow-created-on-a-non-master-branch-from-the-wo
-  # pull_request: {}
+  pull_request: {}
   workflow_dispatch: {}
 
 jobs:
@@ -27,9 +27,9 @@ jobs:
       - uses: ./
         id: current
         with:
-          component: bar
+          component: foo
           stack: core-ue1-dev
-          settings-path: settings.level1.level2.level3.secrets-arn
+          settings-path: settings.level5
 
   assert:
     runs-on: ubuntu-latest
@@ -38,7 +38,7 @@ jobs:
     steps:
       - uses: nick-fields/assert-action@v1
         with:
-          expected: failure
+          expected: success
           actual: ${{ needs.test.outputs.outcome }}
 
       - uses: nick-fields/assert-action@v1
