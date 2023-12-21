@@ -24,8 +24,6 @@ runs:
     - id: settings
       shell: bash
       run: |
-        set -e
-        
         OUTPUT_FILE="$(tr / _ <<<${{ inputs.stack }}-${{ inputs.component }}.json)"
 
         # Extract the settings value from the component's stack configuration
