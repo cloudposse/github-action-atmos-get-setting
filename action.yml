@@ -33,5 +33,5 @@ runs:
           --format json \
           --file "$OUTPUT_FILE"
         value=$(jq -rc --arg key ${{ inputs.settings-path }} '. | getpath($key | split("."))' "$OUTPUT_FILE")
-        echo "value=$value"
+        cat $OUTPUT_FILE
         echo "value=$value" >> $GITHUB_OUTPUT
