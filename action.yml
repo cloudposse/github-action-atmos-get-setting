@@ -24,7 +24,7 @@ runs:
     - id: settings
       shell: bash
       run: |
-        set +e
+        set -e
         
         OUTPUT_FILE="$(tr / _ <<<${{ inputs.stack }}-${{ inputs.component }}.json)"
 
