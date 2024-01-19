@@ -4,7 +4,7 @@ import { getSingleSetting, SettingsInput, SingleSettingInput } from "@lib";
 export const processSingleSetting = async () => {
   const component = core.getInput("component");
   const stack = core.getInput("stack");
-  const settingsPath = core.getInput("settingsPath");
+  const settingsPath = core.getInput("settings-path");
 
   const singleSetting = {
     component,
