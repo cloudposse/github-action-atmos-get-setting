@@ -3,7 +3,7 @@ import { z } from "zod";
 export const SingleSettingInput = z.object({
   component: z.string(),
   stack: z.string(),
-  "settings-path:": z.string()
+  "settings-path": z.string()
 });
 
 export const SettingInput = z.object({

@@ -12,7 +12,7 @@ describe("singleSetting", () => {
     const mockValues: any = {
       component: "foo",
       stack: "core-ue1-dev",
-      settingsPath: "atmos_cli_config.components.terraform.base_path"
+      "settings-path": "atmos_cli_config.components.terraform.base_path"
     };
 
     jest

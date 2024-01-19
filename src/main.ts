@@ -9,13 +9,17 @@ export const processSingleSetting = async () => {
   const singleSetting = {
     component,
     stack,
-    settingsPath
+    "settings-path": settingsPath
   };
 
   const parseResult = SingleSettingInput.safeParse(singleSetting);
 
   if (parseResult.success) {
-    const value = await getSingleSetting(component, stack, settingsPath);
+    const value = await getSingleSetting(
+      parseResult.data.component,
+      parseResult.data.stack,
+      parseResult.data["settings-path"]
+    );
     core.setOutput("value", value);
     return true;
   }

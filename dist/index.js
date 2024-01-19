@@ -28935,7 +28935,7 @@ const zod_1 = __nccwpck_require__(3301);
 exports.SingleSettingInput = zod_1.z.object({
     component: zod_1.z.string(),
     stack: zod_1.z.string(),
-    "settings-path:": zod_1.z.string()
+    "settings-path": zod_1.z.string()
 });
 exports.SettingInput = zod_1.z.object({
     component: zod_1.z.string(),
@@ -29054,11 +29054,11 @@ const processSingleSetting = () => __awaiter(void 0, void 0, void 0, function* (
     const singleSetting = {
         component,
         stack,
-        settingsPath
+        "settings-path": settingsPath
     };
     const parseResult = _lib_1.SingleSettingInput.safeParse(singleSetting);
     if (parseResult.success) {
-        const value = yield (0, _lib_1.getSingleSetting)(component, stack, settingsPath);
+        const value = yield (0, _lib_1.getSingleSetting)(parseResult.data.component, parseResult.data.stack, parseResult.data["settings-path"]);
         core.setOutput("value", value);
         return true;
     }
