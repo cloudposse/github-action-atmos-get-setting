@@ -14,5 +14,5 @@
       "@lib": ["lib/index.ts"]
     }
   },
-  "exclude": ["node_modules", "**/*.test.ts"]
+  "exclude": ["node_modules", "**/*.test.ts", "jest.config.ts"]
 }
