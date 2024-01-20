@@ -28968,19 +28968,21 @@ const processSingleSetting = async () => {
 exports.processSingleSetting = processSingleSetting;
 const processMultipleSettings = async () => {
     const settingsInput = core.getInput("settings");
-    const json = JSON.parse(settingsInput);
-    const parseResult = _lib_1.SettingsInput.safeParse(json);
-    if (parseResult.success && parseResult.data.length > 0) {
-        core.debug(`parseResult: ${JSON.stringify(parseResult.data)}`);
-        const settings = parseResult.data;
-        const output = await settings.reduce(async (accPromise, item) => {
-            const acc = await accPromise;
-            const { outputPath, ...rest } = item;
-            const result = await (0, _lib_1.getSingleSetting)(item.component, item.stack, item.settingsPath);
-            return { ...acc, [outputPath]: result };
-        }, Promise.resolve({}));
-        core.setOutput("settings", JSON.stringify(output));
-        return true;
+    if (settingsInput) {
+        const json = JSON.parse(settingsInput);
+        const parseResult = _lib_1.SettingsInput.safeParse(json);
+        if (parseResult.success && parseResult.data.length > 0) {
+            core.debug(`parseResult: ${JSON.stringify(parseResult.data)}`);
+            const settings = parseResult.data;
+            const output = await settings.reduce(async (accPromise, item) => {
+                const acc = await accPromise;
+                const { outputPath, ...rest } = item;
+                const result = await (0, _lib_1.getSingleSetting)(item.component, item.stack, item.settingsPath);
+                return { ...acc, [outputPath]: result };
+            }, Promise.resolve({}));
+            core.setOutput("settings", JSON.stringify(output));
+            return true;
+        }
     }
     return false;
 };
@@ -29008,7 +29010,7 @@ exports.SettingInput = zod_1.z.object({
     settingsPath: zod_1.z.string(),
     outputPath: zod_1.z.string()
 });
-exports.SettingsInput = zod_1.z.array(exports.SettingInput);
+exports.SettingsInput = zod_1.z.array(exports.SettingInput).min(1);
 
 
 /***/ }),
