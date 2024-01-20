@@ -30,28 +30,30 @@ export const processSingleSetting = async () => {
 
 export const processMultipleSettings = async () => {
   const settingsInput = core.getInput("settings");
-  const json = JSON.parse(settingsInput);
-  const parseResult = SettingsInput.safeParse(json);
 
-  if (parseResult.success && parseResult.data.length > 0) {
-    core.debug(`parseResult: ${JSON.stringify(parseResult.data)}`);
+  if (settingsInput) {
+    const json = JSON.parse(settingsInput);
+    const parseResult = SettingsInput.safeParse(json);
 
-    const settings = parseResult.data;
+    if (parseResult.success && parseResult.data.length > 0) {
+      core.debug(`parseResult: ${JSON.stringify(parseResult.data)}`);
 
-    const output = await settings.reduce(async (accPromise, item) => {
-      const acc = await accPromise;
-      const { outputPath, ...rest } = item;
-      const result = await getSingleSetting(
-        item.component,
-        item.stack,
-        item.settingsPath
-      );
-      return { ...acc, [outputPath]: result };
-    }, Promise.resolve({}));
+      const settings = parseResult.data;
 
-    core.setOutput("settings", JSON.stringify(output));
-    return true;
+      const output = await settings.reduce(async (accPromise, item) => {
+        const acc = await accPromise;
+        const { outputPath, ...rest } = item;
+        const result = await getSingleSetting(
+          item.component,
+          item.stack,
+          item.settingsPath
+        );
+        return { ...acc, [outputPath]: result };
+      }, Promise.resolve({}));
+
+      core.setOutput("settings", JSON.stringify(output));
+      return true;
+    }
   }
-
   return false;
 };

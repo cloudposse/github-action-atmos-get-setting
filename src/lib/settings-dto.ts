@@ -13,7 +13,7 @@ export const SettingInput = z.object({
   outputPath: z.string()
 });
 
-export const SettingsInput = z.array(SettingInput);
+export const SettingsInput = z.array(SettingInput).min(1);
 
 export type SingleSettingInput = z.infer<typeof SingleSettingInput>;
 export type SettingInput = z.infer<typeof SettingInput>;
