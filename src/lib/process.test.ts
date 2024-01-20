@@ -1,4 +1,4 @@
-import { processMultipleSettings, processSingleSetting } from "./main";
+import { processMultipleSettings, processSingleSetting } from "./process";
 import * as core from "@actions/core";
 import { expect, jest, it, describe } from "@jest/globals";
 
