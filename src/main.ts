@@ -2,12 +2,16 @@ import * as core from "@actions/core";
 import { processMultipleSettings, processSingleSetting } from "@lib";
 
 (async () => {
-  const singleResult = await processSingleSetting();
-  const multipleResult = await processMultipleSettings();
+  try {
+    const singleResult = await processSingleSetting();
+    const multipleResult = await processMultipleSettings();
 
-  if (singleResult || multipleResult) {
-    core.info("Result returned successfully");
-  } else {
-    core.error("Invalid input");
+    if (singleResult || multipleResult) {
+      core.info("Result returned successfully");
+    } else {
+      core.error("Invalid input");
+    }
+  } catch (error) {
+    core.setFailed(error as Error);
   }
 })();

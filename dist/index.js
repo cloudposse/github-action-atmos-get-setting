@@ -28870,28 +28870,19 @@ exports.NEVER = parseUtil_1.INVALID;
 /***/ }),
 
 /***/ 2492:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.runAtmosDescribeComponent = void 0;
 const node_child_process_1 = __nccwpck_require__(7718);
-const runAtmosDescribeComponent = (component, stack, cwd) => __awaiter(void 0, void 0, void 0, function* () {
+const runAtmosDescribeComponent = async (component, stack, cwd) => {
     const options = cwd ? { cwd } : {};
     const command = `atmos describe component ${component} -s ${stack} --format=json`;
     const atmos = (0, node_child_process_1.execSync)(command, options);
     return atmos.toString();
-});
+};
 exports.runAtmosDescribeComponent = runAtmosDescribeComponent;
 
 
@@ -28953,31 +28944,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __rest = (this && this.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.processMultipleSettings = exports.processSingleSetting = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const _lib_1 = __nccwpck_require__(6791);
-const processSingleSetting = () => __awaiter(void 0, void 0, void 0, function* () {
+const processSingleSetting = async () => {
     const component = core.getInput("component");
     const stack = core.getInput("stack");
     const settingsPath = core.getInput("settings-path");
@@ -28988,30 +28959,30 @@ const processSingleSetting = () => __awaiter(void 0, void 0, void 0, function* (
     };
     const parseResult = _lib_1.SingleSettingInput.safeParse(singleSetting);
     if (parseResult.success) {
-        const value = yield (0, _lib_1.getSingleSetting)(parseResult.data.component, parseResult.data.stack, parseResult.data["settings-path"]);
+        const value = await (0, _lib_1.getSingleSetting)(parseResult.data.component, parseResult.data.stack, parseResult.data["settings-path"]);
         core.setOutput("value", value);
         return true;
     }
     return false;
-});
+};
 exports.processSingleSetting = processSingleSetting;
-const processMultipleSettings = () => __awaiter(void 0, void 0, void 0, function* () {
+const processMultipleSettings = async () => {
     const settingsInput = core.getInput("settings");
     const json = JSON.parse(settingsInput);
     const parseResult = _lib_1.SettingsInput.safeParse(json);
     if (parseResult.success) {
         const settings = parseResult.data;
-        const output = yield settings.reduce((accPromise, item) => __awaiter(void 0, void 0, void 0, function* () {
-            const acc = yield accPromise;
-            const { outputPath } = item, rest = __rest(item, ["outputPath"]);
-            const result = yield (0, _lib_1.getSingleSetting)(item.component, item.stack, item.settingsPath);
-            return Object.assign(Object.assign({}, acc), { [outputPath]: result });
-        }), Promise.resolve({}));
+        const output = await settings.reduce(async (accPromise, item) => {
+            const acc = await accPromise;
+            const { outputPath, ...rest } = item;
+            const result = await (0, _lib_1.getSingleSetting)(item.component, item.stack, item.settingsPath);
+            return { ...acc, [outputPath]: result };
+        }, Promise.resolve({}));
         core.setOutput("settings", output);
         return true;
     }
     return false;
-});
+};
 exports.processMultipleSettings = processMultipleSettings;
 
 
@@ -29061,28 +29032,19 @@ exports.getNestedValue = getNestedValue;
 /***/ }),
 
 /***/ 2793:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getSingleSetting = void 0;
 const atmos_1 = __nccwpck_require__(2492);
 const settings_1 = __nccwpck_require__(691);
-const getSingleSetting = (component, stack, settingsPath) => __awaiter(void 0, void 0, void 0, function* () {
-    const cmdOutput = yield (0, atmos_1.runAtmosDescribeComponent)(component, stack);
+const getSingleSetting = async (component, stack, settingsPath) => {
+    const cmdOutput = await (0, atmos_1.runAtmosDescribeComponent)(component, stack);
     const json = JSON.parse(cmdOutput);
     return (0, settings_1.getNestedValue)(json, settingsPath);
-});
+};
 exports.getSingleSetting = getSingleSetting;
 
 
@@ -29116,28 +29078,24 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const _lib_1 = __nccwpck_require__(6791);
-(() => __awaiter(void 0, void 0, void 0, function* () {
-    const singleResult = yield (0, _lib_1.processSingleSetting)();
-    const multipleResult = yield (0, _lib_1.processMultipleSettings)();
-    if (singleResult || multipleResult) {
-        core.info("Result returned successfully");
+(async () => {
+    try {
+        const singleResult = await (0, _lib_1.processSingleSetting)();
+        const multipleResult = await (0, _lib_1.processMultipleSettings)();
+        if (singleResult || multipleResult) {
+            core.info("Result returned successfully");
+        }
+        else {
+            core.error("Invalid input");
+        }
     }
-    else {
-        core.error("Invalid input");
+    catch (error) {
+        core.setFailed(error);
     }
-}))();
+})();
 
 
 /***/ }),
