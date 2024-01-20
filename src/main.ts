@@ -12,6 +12,8 @@ import { processMultipleSettings, processSingleSetting } from "@lib";
       core.error("Invalid input");
     }
   } catch (error) {
-    core.setFailed(error as Error);
+    const err = error as Error;
+    core.setFailed(err);
+    core.error(err.stack || "");
   }
 })();

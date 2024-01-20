@@ -29118,7 +29118,9 @@ const _lib_1 = __nccwpck_require__(6791);
         }
     }
     catch (error) {
-        core.setFailed(error);
+        const err = error;
+        core.setFailed(err);
+        core.error(err.stack || "");
     }
 })();
 
