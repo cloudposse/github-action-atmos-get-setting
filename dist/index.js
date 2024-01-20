@@ -28970,7 +28970,7 @@ const processMultipleSettings = async () => {
     const settingsInput = core.getInput("settings");
     const json = JSON.parse(settingsInput);
     const parseResult = _lib_1.SettingsInput.safeParse(json);
-    if (parseResult.success) {
+    if (parseResult.success && parseResult.data.length > 0) {
         const settings = parseResult.data;
         const output = await settings.reduce(async (accPromise, item) => {
             const acc = await accPromise;
