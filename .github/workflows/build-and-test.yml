@@ -30,6 +30,8 @@ jobs:
       - name: install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
       - uses: cloudposse/github-action-setup-atmos@1.1.0
+        with:
+          install-wrapper: false
       - name: run unit tests
         run: yarn test
 
@@ -46,6 +48,8 @@ jobs:
           node-version-file: package.json
           cache: yarn
       - uses: cloudposse/github-action-setup-atmos@1.1.0
+        with:
+          install-wrapper: false
       - uses: ./
         id: get-setting
         with:
