@@ -33,7 +33,7 @@ export const processMultipleSettings = async () => {
   const json = JSON.parse(settingsInput);
   const parseResult = SettingsInput.safeParse(json);
 
-  if (parseResult.success) {
+  if (parseResult.success && parseResult.data.length > 0) {
     const settings = parseResult.data;
 
     const output = await settings.reduce(async (accPromise, item) => {
