@@ -83,10 +83,8 @@ describe("multipleSettings", () => {
 
   it("should return an object", async () => {
     const result = await processMultipleSettings();
-    expect(outputs["settings"]).toEqual({
-      prop1: "components/terraform",
-      secretArn:
-        "arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"
-    });
+    expect(outputs["settings"]).toEqual(
+      '{"prop1":"components/terraform","secretArn":"arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"}'
+    );
   });
 });

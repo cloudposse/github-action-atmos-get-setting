@@ -1,5 +1,6 @@
 import * as core from "@actions/core";
 import { getSingleSetting, SettingsInput, SingleSettingInput } from "@lib";
+import { string } from "zod";
 
 export const processSingleSetting = async () => {
   const component = core.getInput("component");
@@ -46,7 +47,7 @@ export const processMultipleSettings = async () => {
       return { ...acc, [outputPath]: result };
     }, Promise.resolve({}));
 
-    core.setOutput("settings", output);
+    core.setOutput("settings", JSON.stringify(output));
     return true;
   }
 

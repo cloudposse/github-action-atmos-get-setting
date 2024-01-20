@@ -28978,7 +28978,7 @@ const processMultipleSettings = async () => {
             const result = await (0, _lib_1.getSingleSetting)(item.component, item.stack, item.settingsPath);
             return { ...acc, [outputPath]: result };
         }, Promise.resolve({}));
-        core.setOutput("settings", output);
+        core.setOutput("settings", JSON.stringify(output));
         return true;
     }
     return false;
