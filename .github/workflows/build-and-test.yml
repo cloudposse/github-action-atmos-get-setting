@@ -92,4 +92,4 @@ jobs:
       - uses: nick-fields/assert-action@v1
         with:
           expected: "components/terraform"
-          actual: ${{ steps.get-setting.outputs.value}}
+          actual: ${{ steps.get-setting.outputs.settings}}
