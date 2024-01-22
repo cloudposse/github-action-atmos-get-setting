@@ -1,5 +1,5 @@
 import { ZodError } from "zod";
-import { SettingsInput } from "./settings-dto";
+import { SettingsInput } from "./settings";
 
 describe("settings-dto", () => {
   it("throws with invalid object", async () => {

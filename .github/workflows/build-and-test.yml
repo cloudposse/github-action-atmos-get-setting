@@ -56,4 +56,7 @@ jobs:
           component: foo
           stack: core-ue1-dev
           settings-path: atmos_cli_config.components.terraform.base_path
-      - run: echo "${{ steps.get-setting.outputs.value}}"
+      - uses: nick-fields/assert-action@v1
+        with:
+          expected: "components/terraform"
+          actual: ${{ steps.get-setting.outputs.value}}
