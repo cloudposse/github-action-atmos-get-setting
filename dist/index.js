@@ -29009,15 +29009,15 @@ const getNestedValue = (obj, path) => {
 };
 exports.getNestedValue = getNestedValue;
 exports.SingleSettingInput = zod_1.z.object({
-    component: zod_1.z.string(),
-    stack: zod_1.z.string(),
-    "settings-path": zod_1.z.string()
+    component: zod_1.z.string().trim().min(1),
+    stack: zod_1.z.string().trim().min(1),
+    "settings-path": zod_1.z.string().trim().min(1)
 });
 exports.SettingInput = zod_1.z.object({
-    component: zod_1.z.string(),
-    stack: zod_1.z.string(),
-    settingsPath: zod_1.z.string(),
-    outputPath: zod_1.z.string()
+    component: zod_1.z.string().trim().min(1),
+    stack: zod_1.z.string().trim().min(1),
+    settingsPath: zod_1.z.string().trim().min(1),
+    outputPath: zod_1.z.string().trim().min(1)
 });
 exports.SettingsInput = zod_1.z.array(exports.SettingInput).min(1);
 
