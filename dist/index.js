@@ -28968,8 +28968,10 @@ const processSingleSetting = async () => {
 exports.processSingleSetting = processSingleSetting;
 const processMultipleSettings = async () => {
     const settingsInput = core.getInput("settings");
+    core.debug(`settingsInput: ${settingsInput}`);
     if (settingsInput) {
         const json = JSON.parse(settingsInput);
+        core.debug(`settingsInputParsed: ${json}`);
         const parseResult = _lib_1.SettingsInput.safeParse(json);
         if (parseResult.success && parseResult.data.length > 0) {
             const settings = parseResult.data;
