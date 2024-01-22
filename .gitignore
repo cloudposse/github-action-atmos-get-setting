@@ -131,3 +131,4 @@ dist
 
 # cloudposse stuff
 .build-harness
+build-harness/
