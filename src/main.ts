@@ -1,5 +1,5 @@
 import * as core from "@actions/core";
-import { processMultipleSettings, processSingleSetting } from "@lib";
+import { processMultipleSettings, processSingleSetting } from "@useCase";
 
 (async () => {
   try {
@@ -7,9 +7,9 @@ import { processMultipleSettings, processSingleSetting } from "@lib";
     const multipleResult = await processMultipleSettings();
 
     if (singleResult || multipleResult) {
-      core.info("Result returned successfully");
+      core.info("result returned successfully");
     } else {
-      core.error("Invalid input");
+      core.error("invalid input");
     }
   } catch (error) {
     const err = error as Error;

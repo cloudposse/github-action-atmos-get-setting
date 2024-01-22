@@ -1,4 +1,3 @@
 export * from "./atmos";
-export * from "./process";
+export * from "../useCase/process-multiple-settings";
 export * from "./settings";
-export * from "./single-setting";

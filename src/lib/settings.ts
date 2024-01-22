@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { runAtmosDescribeComponent } from "./atmos";
 
 export const getNestedValue = (obj: any, path: string): any | undefined => {
   return path.split(".").reduce((currentObj, key) => {
@@ -26,3 +27,14 @@ export const SettingsInput = z.array(SettingInput).min(1);
 export type SingleSettingInput = z.infer<typeof SingleSettingInput>;
 export type SettingInput = z.infer<typeof SettingInput>;
 export type SettingsInput = z.infer<typeof SettingsInput>;
+
+export const getSetting = async (
+  component: string,
+  stack: string,
+  settingsPath: string
+) => {
+  const cmdOutput = await runAtmosDescribeComponent(component, stack);
+  const json = JSON.parse(cmdOutput);
+
+  return getNestedValue(json, settingsPath);
+};
