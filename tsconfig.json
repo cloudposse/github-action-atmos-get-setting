@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "types": ["node", "jest"],
+    "resolveJsonModule": true,
+    "paths": {
+      "@lib": ["lib/index.ts"],
+      "@useCase": ["useCase/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "**/*.test.ts", "jest.config.ts"]
+}

@@ -1,0 +1,63 @@
+{
+  "name": "github-action-atmos-get-settings",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The Cloud Posse GitHub Action for Retreiving Atmos Settings",
+  "main": "dist/index.js",
+  "scripts": {
+    "format": "prettier --write **/*.ts",
+    "format:check": "prettier --check **/*.ts",
+    "lint": "eslint --fix src/**/*.ts",
+    "lint:check": "eslint src/**/*.ts",
+    "build": "ncc build src/main.ts --source-map --license licenses.txt",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cloudposse/github-action-atmos-get-settings.git"
+  },
+  "keywords": [
+    "actions",
+    "node",
+    "setup"
+  ],
+  "author": "Cloud Posse LLC",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@actions/cache": "^3.2.2",
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^6.0.0",
+    "@actions/io": "^1.1.2",
+    "@actions/tool-cache": "^2.0.1",
+    "octokit": "^3.1.2",
+    "yaml": "^2.3.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/eslint-plugin": "6.19.0",
+    "@typescript-eslint/parser": "6.19.0",
+    "@vercel/ncc": "0.38.1",
+    "dotenv": "^16.3.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jest": "27.6.3",
+    "eslint-plugin-sort-destructure-keys": "^1.4.0",
+    "jest": "29.7.0",
+    "jest-mock-axios": "^4.7.3",
+    "jest-mock-extended": "^3.0.5",
+    "jest-nock": "^0.2.2",
+    "msw": "^2.0.11",
+    "ncc": "^0.3.6",
+    "prettier": "3.2.4",
+    "ts-jest": "29.1.1",
+    "ts-node": "^10.9.2",
+    "typescript": "5.3.3"
+  },
+  "engines": {
+    "node": "~20",
+    "yarn": "~1"
+  }
+}

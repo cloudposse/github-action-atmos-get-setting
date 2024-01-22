@@ -1,0 +1,183 @@
+{
+  "atmos_cli_config": {
+    "base_path": ".",
+    "components": {
+      "terraform": {
+        "base_path": "components/terraform",
+        "apply_auto_approve": false,
+        "deploy_run_init": true,
+        "init_run_reconfigure": true,
+        "auto_generate_backend_file": false
+      },
+      "helmfile": {
+        "base_path": "components/helmfile",
+        "use_eks": true,
+        "kubeconfig_path": "/dev/shm",
+        "helm_aws_profile_pattern": "{namespace}-gbl-{stage}-helm",
+        "cluster_name_pattern": "{namespace}-{environment}-{stage}-eks-cluster"
+      }
+    },
+    "stacks": {
+      "base_path": "stacks",
+      "included_paths": [
+        "orgs/**/*"
+      ],
+      "excluded_paths": [
+        "**/_defaults.yaml"
+      ],
+      "name_pattern": "{tenant}-{environment}-{stage}"
+    },
+    "workflows": {
+      "base_path": "stacks/workflows"
+    }
+  },
+  "atmos_component": "foo",
+  "atmos_stack": "core-ue1-dev",
+  "atmos_stack_file": "orgs/demo/dev/dev",
+  "backend": {},
+  "backend_type": "",
+  "command": "terraform",
+  "component": "foo",
+  "component_info": {
+    "component_path": "components/terraform/foo",
+    "component_type": "terraform",
+    "terraform_config": {
+      "path": "components/terraform/foo",
+      "variables": {},
+      "outputs": {},
+      "required_providers": {},
+      "managed_resources": {},
+      "data_resources": {},
+      "module_calls": {},
+      "diagnostics": [
+        {
+          "severity": "error",
+          "summary": "Failed to read module directory",
+          "detail": "Module directory components/terraform/foo does not exist or cannot be read."
+        }
+      ]
+    }
+  },
+  "deps": [
+    "orgs/demo/dev/dev"
+  ],
+  "deps_all": [
+    "orgs/demo/dev/dev"
+  ],
+  "env": {},
+  "imports": [],
+  "inheritance": null,
+  "metadata": {},
+  "overrides": {},
+  "remote_state_backend": {},
+  "remote_state_backend_type": "",
+  "settings": {
+    "level1": {
+      "level2": {
+        "level3": {
+          "secrets-arn": "arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"
+        }
+      }
+    }
+  },
+  "sources": {
+    "backend": {},
+    "env": {},
+    "settings": {
+      "level1": {
+        "final_value": {
+          "level2": {
+            "level3": {
+              "secrets-arn": "arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"
+            }
+          }
+        },
+        "name": "level1",
+        "stack_dependencies": [
+          {
+            "stack_file": "orgs/demo/dev/dev",
+            "stack_file_section": "components.terraform.settings",
+            "dependency_type": "inline",
+            "variable_value": {
+              "level2": {
+                "level3": {
+                  "secrets-arn": "arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "vars": {
+      "environment": {
+        "final_value": "ue1",
+        "name": "environment",
+        "stack_dependencies": [
+          {
+            "stack_file": "orgs/demo/dev/dev",
+            "stack_file_section": "components.terraform.vars",
+            "dependency_type": "inline",
+            "variable_value": "ue1"
+          }
+        ]
+      },
+      "foo": {
+        "final_value": "bar",
+        "name": "foo",
+        "stack_dependencies": [
+          {
+            "stack_file": "orgs/demo/dev/dev",
+            "stack_file_section": "components.terraform.vars",
+            "dependency_type": "inline",
+            "variable_value": "bar"
+          }
+        ]
+      },
+      "namespace": {
+        "final_value": "demo",
+        "name": "namespace",
+        "stack_dependencies": [
+          {
+            "stack_file": "orgs/demo/dev/dev",
+            "stack_file_section": "components.terraform.vars",
+            "dependency_type": "inline",
+            "variable_value": "demo"
+          }
+        ]
+      },
+      "stage": {
+        "final_value": "dev",
+        "name": "stage",
+        "stack_dependencies": [
+          {
+            "stack_file": "orgs/demo/dev/dev",
+            "stack_file_section": "components.terraform.vars",
+            "dependency_type": "inline",
+            "variable_value": "dev"
+          }
+        ]
+      },
+      "tenant": {
+        "final_value": "core",
+        "name": "tenant",
+        "stack_dependencies": [
+          {
+            "stack_file": "orgs/demo/dev/dev",
+            "stack_file_section": "components.terraform.vars",
+            "dependency_type": "inline",
+            "variable_value": "core"
+          }
+        ]
+      }
+    }
+  },
+  "vars": {
+    "environment": "ue1",
+    "foo": "bar",
+    "namespace": "demo",
+    "stage": "dev",
+    "tenant": "core"
+  },
+  "workspace": "core-ue1-dev"
+}

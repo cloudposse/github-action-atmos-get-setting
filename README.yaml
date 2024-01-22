@@ -32,10 +32,12 @@ badges:
 related: []
 
 # Short description of this project
-description: GitHub Action to retreive a setting from [atmos](https://github.com/cloudposse/atmos) configuration.
+description: GitHub Action to retrieve a setting from [atmos](https://github.com/cloudposse/atmos) configuration.
 
 introduction: |-
-  GitHub Action to retreive a setting from [atmos](https://github.com/cloudposse/atmos) configuration.
+  GitHub Action to retrieve settings from [atmos](https://github.com/cloudposse/atmos) configuration. There are two ways
+  to use this action. The first is to retrieve a single setting and to get its value returned via the `value` output.
+  The second is to retrieve multiple settings as an object returned via the `settings` output.
 
 references:
   - name: "github-actions-workflows"
@@ -50,7 +52,8 @@ usage: |-
     terraform:
       foo:
         settings:
-          secrets-arn: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3
+          roleArn: arn:aws:iam::000000000000:role/MyRole
+          secretsArn: arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3
         vars:
           foo: bar
   ```
@@ -66,7 +69,10 @@ usage: |-
       context:
         runs-on: ubuntu-latest
         steps:
-          - name: Get Atmos Setting for Secret ARN
+
+          # The following example will return a single setting value of
+          # `arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3` in the `value` output:
+          - name: Get Atmos Single Setting for Secret ARN
             uses: cloudposse/github-action-atmos-get-setting@main
             id: example
             with:
@@ -74,14 +80,26 @@ usage: |-
               stack: core-ue1-dev
               settings-path: settings.secrets-arn
 
-          - name: Set ENV Vars with AWS Secrets Manager Secret
-            uses: aws-actions/aws-secretsmanager-get-secrets@v1
+          # The following example will return an object with the following structure in the `settings` output:
+          # {"secretsArn":"arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3", "roleArn":"arn:aws:iam::000000000000:role/MyRole"}
+          - name: Get Atmos Multiple Settings
+            uses: cloudposse/github-action-atmos-get-setting@main
+            id: example
             with:
-              secret-ids: ${{ steps.example.outputs.value }}
+              settings: |
+                - component: foo
+                  stack: core-ue1-dev
+                  settingsPath: settings.secrets-arn
+                  outputPath: secretsArn
+                - component: foo
+                  stack: core-ue1-dev
+                  settingsPath: settings.secrets-arn
+                  outputPath: roleArn
+
   ```
-  
+
   ## Migrating from `v0` to `v1`
-  
+
   Starting from `v1` the action is no longer restricted to retrieving the component config from only the `settings` section.
   If you want the same behavior in `v1`  as in`v0`, you should add the `settings.` prefix to the value of the `settings-path` variable.
   For example, in `v1` you would provide `settings.secrets-arn` as the value to the `settings-path`
@@ -92,11 +110,11 @@ usage: |-
       with:
         component: foo
         stack: core-ue1-dev
-        settings-path: settings.secrets-arn  
+        settings-path: settings.secrets-arn
   ```
-  
+
   Which would provide the same output as passing only `secrets-arn` in `v0`
-  
+
   ```yaml
     - name: Get Atmos Setting for Secret ARN
       uses: cloudposse/github-action-atmos-get-setting@v0
@@ -104,9 +122,8 @@ usage: |-
       with:
         component: foo
         stack: core-ue1-dev
-        settings-path: secrets-arn  
+        settings-path: secrets-arn
   ```
-  
 
 include:
   - "docs/github-action.md"

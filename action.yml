@@ -7,30 +7,21 @@ branding:
 inputs:
   component:
     description: The atmos component extract the settings for.
-    required: true
+    required: false
   stack:
     description: The atmos stack extract the settings for.
-    required: true
+    required: false
   settings-path:
     description: The settings path using JSONPath expressions.
-    required: true
+    required: false
+  settings:
+    description: The settings to extract.
+    required: false
 outputs:
   value:
-    description: "The value of the settings"
-    value: ${{ steps.settings.outputs.value }}
+    description: "The value of the setting when a single setting is returned."
+  settings:
+    description: "The settings values when multiple settings are returned."
 runs:
-  using: "composite"
-  steps:
-    - id: settings
-      shell: bash
-      run: |
-        OUTPUT_FILE="$(tr / _ <<<${{ inputs.stack }}-${{ inputs.component }}.json)"
-
-        # Extract the settings value from the component's stack configuration
-        atmos describe component \
-          ${{ inputs.component }} \
-          -s ${{ inputs.stack }} \
-          --format json \
-          --file "$OUTPUT_FILE" || echo '{}' > "$OUTPUT_FILE"
-        value=$(jq -rc --arg key ${{ inputs.settings-path }} '. | getpath($key | split("."))' "$OUTPUT_FILE")
-        echo "value=$value" >> $GITHUB_OUTPUT
+  using: "node20"
+  main: "dist/index.js"
