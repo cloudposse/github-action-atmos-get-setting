@@ -36,8 +36,6 @@ export const processMultipleSettings = async () => {
     const parseResult = SettingsInput.safeParse(json);
 
     if (parseResult.success && parseResult.data.length > 0) {
-      core.debug(`parseResult: ${JSON.stringify(parseResult.data)}`);
-
       const settings = parseResult.data;
 
       const output = await settings.reduce(async (accPromise, item) => {

@@ -8,8 +8,6 @@ export const getSingleSetting = async (
   settingsPath: string
 ) => {
   const cmdOutput = await runAtmosDescribeComponent(component, stack);
-  core.debug(`cmdOutput: ${cmdOutput}`);
-
   const json = JSON.parse(cmdOutput);
 
   return getNestedValue(json, settingsPath);

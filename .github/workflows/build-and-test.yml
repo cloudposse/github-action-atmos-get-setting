@@ -35,8 +35,8 @@ jobs:
       - name: run unit tests
         run: yarn test
 
-  integration-single:
-    name: "integration tests single setting"
+  integration-test-single:
+    name: "integration test: single setting"
     runs-on: ubuntu-latest
     needs: check-dist
     steps:
@@ -56,6 +56,39 @@ jobs:
           component: foo
           stack: core-ue1-dev
           settings-path: atmos_cli_config.components.terraform.base_path
+      - uses: nick-fields/assert-action@v1
+        with:
+          expected: "components/terraform"
+          actual: ${{ steps.get-setting.outputs.value}}
+
+  integration-test-multiple:
+    name: "integration test: multiple settings"
+    runs-on: ubuntu-latest
+    needs: check-dist
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: package.json
+          cache: yarn
+      - uses: cloudposse/github-action-setup-atmos@1.1.0
+        with:
+          install-wrapper: false
+      - uses: ./
+        id: get-setting
+        with:
+          settings: |
+            - component: foo
+              stack: core-ue1-dev
+              settingsPath: atmos_cli_config.components.terraform.base_path
+              outputPath: prop1
+            - component: foo
+              stack: core-ue1-dev
+              settingsPath: settings.level1.level2.level3.secrets-arn
+              outputPath: prop2
+
       - uses: nick-fields/assert-action@v1
         with:
           expected: "components/terraform"
