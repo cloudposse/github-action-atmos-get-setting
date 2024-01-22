@@ -34,7 +34,7 @@ export const processMultipleSettings = async () => {
 
   if (settingsInput) {
     const json = YAML.parse(settingsInput);
-    core.debug(`settingsInputParsed: ${json}`);
+    core.debug(`settingsInputParsed: ${JSON.stringify(json)}`);
     const parseResult = SettingsInput.safeParse(json);
 
     if (parseResult.success && parseResult.data.length > 0) {

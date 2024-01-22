@@ -28972,7 +28972,7 @@ const processMultipleSettings = async () => {
     core.debug(`settingsInput: ${settingsInput}`);
     if (settingsInput) {
         const json = YAML.parse(settingsInput);
-        core.debug(`settingsInputParsed: ${json}`);
+        core.debug(`settingsInputParsed: ${JSON.stringify(json)}`);
         const parseResult = _lib_1.SettingsInput.safeParse(json);
         if (parseResult.success && parseResult.data.length > 0) {
             const settings = parseResult.data;
