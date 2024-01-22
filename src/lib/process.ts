@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import { getSingleSetting, SettingsInput, SingleSettingInput } from "@lib";
-import { string } from "zod";
+import * as YAML from "yaml";
 
 export const processSingleSetting = async () => {
   const component = core.getInput("component");
@@ -33,7 +33,7 @@ export const processMultipleSettings = async () => {
   core.debug(`settingsInput: ${settingsInput}`);
 
   if (settingsInput) {
-    const json = JSON.parse(settingsInput);
+    const json = YAML.parse(settingsInput);
     core.debug(`settingsInputParsed: ${json}`);
     const parseResult = SettingsInput.safeParse(json);
 
