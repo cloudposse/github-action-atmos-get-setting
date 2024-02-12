@@ -56,7 +56,7 @@ jobs:
           component: foo
           stack: core-ue1-dev
           settings-path: atmos_cli_config.components.terraform.base_path
-      - uses: nick-fields/assert-action@v1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: "components/terraform"
           actual: ${{ steps.get-setting.outputs.value}}
@@ -89,7 +89,7 @@ jobs:
               settingsPath: settings.level1.level2.level3.secrets-arn
               outputPath: prop2
 
-      - uses: nick-fields/assert-action@v1
+      - uses: nick-fields/assert-action@v2
         with:
           expected: '{"prop1":"components/terraform","prop2":"arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"}'
           actual: ${{ steps.get-setting.outputs.settings}}
