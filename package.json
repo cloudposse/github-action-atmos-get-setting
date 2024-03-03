@@ -51,7 +51,7 @@
     "jest-nock": "^0.2.2",
     "msw": "^2.0.11",
     "ncc": "^0.3.6",
-    "prettier": "3.2.4",
+    "prettier": "3.2.5",
     "ts-jest": "29.1.1",
     "ts-node": "^10.9.2",
     "typescript": "5.3.3"
