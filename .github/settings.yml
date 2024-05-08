@@ -1,0 +1,7 @@
+# Upstream changes from _extends are only recognized when modifications are made to this file in the default branch.
+_extends: .github
+repository:
+  name: github-action-atmos-get-setting
+  description: A GitHub Action to extract settings from atmos metadata
+  homepage: https://cloudposse.com/accelerate
+  topics: ""
