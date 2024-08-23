@@ -28879,7 +28879,9 @@ exports.runAtmosDescribeComponent = void 0;
 const node_child_process_1 = __nccwpck_require__(7718);
 const runAtmosDescribeComponent = async (component, stack, cwd) => {
     const options = cwd ? { cwd } : {};
-    const command = `atmos describe component ${component} -s ${stack} --format=json`;
+    // We do not process templates in the following command, as some template functions such as 'atmos.Component'
+    // require authentication to remote state backends.
+    const command = `atmos describe component ${component} -s ${stack} --format=json --process-templates=false`;
     const atmos = (0, node_child_process_1.execSync)(command, options);
     return atmos.toString();
 };
