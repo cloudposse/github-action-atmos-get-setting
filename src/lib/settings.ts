@@ -12,14 +12,16 @@ export const getNestedValue = (obj: any, path: string): any | undefined => {
 export const SingleSettingInput = z.object({
   component: z.string().trim().min(1),
   stack: z.string().trim().min(1),
-  "settings-path": z.string().trim().min(1)
+  "settings-path": z.string().trim().min(1),
+  "process-templates": z.boolean()
 });
 
 export const SettingInput = z.object({
   component: z.string().trim().min(1),
   stack: z.string().trim().min(1),
   settingsPath: z.string().trim().min(1),
-  outputPath: z.string().trim().min(1)
+  outputPath: z.string().trim().min(1),
+  processTemplates: z.boolean()
 });
 
 export const SettingsInput = z.array(SettingInput).min(1);
@@ -31,9 +33,10 @@ export type SettingsInput = z.infer<typeof SettingsInput>;
 export const getSetting = async (
   component: string,
   stack: string,
-  settingsPath: string
+  settingsPath: string,
+  processTemplates: boolean
 ) => {
-  const cmdOutput = await runAtmosDescribeComponent(component, stack);
+  const cmdOutput = await runAtmosDescribeComponent(component, stack, processTemplates);
   const json = JSON.parse(cmdOutput);
 
   return getNestedValue(json, settingsPath);

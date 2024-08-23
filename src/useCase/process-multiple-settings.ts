@@ -18,7 +18,8 @@ export const processMultipleSettings = async () => {
         const result = await getSetting(
           item.component,
           item.stack,
-          item.settingsPath
+          item.settingsPath,
+          item.processTemplates
         );
         return { ...acc, [outputPath]: result };
       }, Promise.resolve({}));

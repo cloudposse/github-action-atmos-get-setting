@@ -15,13 +15,15 @@ describe("multipleSettings", () => {
           component: "foo",
           stack: "core-ue1-dev",
           settingsPath: "atmos_cli_config.components.terraform.base_path",
-          outputPath: "prop1"
+          outputPath: "prop1",
+          processTemplates: true,
         },
         {
           component: "foo",
           stack: "core-ue1-dev",
           settingsPath: "settings.level1.level2.level3.secrets-arn",
-          outputPath: "secretArn"
+          outputPath: "secretArn",
+          processTemplates: false
         }
       ])
     };
