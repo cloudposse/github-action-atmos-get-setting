@@ -28877,11 +28877,9 @@ exports.NEVER = parseUtil_1.INVALID;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.runAtmosDescribeComponent = void 0;
 const node_child_process_1 = __nccwpck_require__(7718);
-const runAtmosDescribeComponent = async (component, stack, cwd) => {
+const runAtmosDescribeComponent = async (component, stack, processTemplates, cwd) => {
     const options = cwd ? { cwd } : {};
-    // We do not process templates in the following command, as some template functions such as 'atmos.Component'
-    // require authentication to remote state backends.
-    const command = `atmos describe component ${component} -s ${stack} --format=json --process-templates=false`;
+    const command = `atmos describe component ${component} -s ${stack} --format=json --process-templates=${processTemplates}`;
     const atmos = (0, node_child_process_1.execSync)(command, options);
     return atmos.toString();
 };
@@ -28937,17 +28935,19 @@ exports.getNestedValue = getNestedValue;
 exports.SingleSettingInput = zod_1.z.object({
     component: zod_1.z.string().trim().min(1),
     stack: zod_1.z.string().trim().min(1),
-    "settings-path": zod_1.z.string().trim().min(1)
+    "settings-path": zod_1.z.string().trim().min(1),
+    "process-templates": zod_1.z.boolean()
 });
 exports.SettingInput = zod_1.z.object({
     component: zod_1.z.string().trim().min(1),
     stack: zod_1.z.string().trim().min(1),
     settingsPath: zod_1.z.string().trim().min(1),
-    outputPath: zod_1.z.string().trim().min(1)
+    outputPath: zod_1.z.string().trim().min(1),
+    processTemplates: zod_1.z.boolean()
 });
 exports.SettingsInput = zod_1.z.array(exports.SettingInput).min(1);
-const getSetting = async (component, stack, settingsPath) => {
-    const cmdOutput = await (0, atmos_1.runAtmosDescribeComponent)(component, stack);
+const getSetting = async (component, stack, settingsPath, processTemplates) => {
+    const cmdOutput = await (0, atmos_1.runAtmosDescribeComponent)(component, stack, processTemplates);
     const json = JSON.parse(cmdOutput);
     return (0, exports.getNestedValue)(json, settingsPath);
 };
@@ -29077,7 +29077,7 @@ const processMultipleSettings = async () => {
             const output = await settings.reduce(async (accPromise, item) => {
                 const acc = await accPromise;
                 const { outputPath, ...rest } = item;
-                const result = await (0, _lib_1.getSetting)(item.component, item.stack, item.settingsPath);
+                const result = await (0, _lib_1.getSetting)(item.component, item.stack, item.settingsPath, item.processTemplates);
                 return { ...acc, [outputPath]: result };
             }, Promise.resolve({}));
             core.setOutput("settings", JSON.stringify(output));
@@ -29127,14 +29127,16 @@ const processSingleSetting = async () => {
     const component = core.getInput("component");
     const stack = core.getInput("stack");
     const settingsPath = core.getInput("settings-path");
+    const processTemplates = core.getInput("process-templates");
     const singleSetting = {
         component,
         stack,
-        "settings-path": settingsPath
+        "settings-path": settingsPath,
+        "process-templates": processTemplates
     };
     const parseResult = _lib_1.SingleSettingInput.safeParse(singleSetting);
     if (parseResult.success) {
-        const value = await (0, _lib_1.getSetting)(parseResult.data.component, parseResult.data.stack, parseResult.data["settings-path"]);
+        const value = await (0, _lib_1.getSetting)(parseResult.data.component, parseResult.data.stack, parseResult.data["settings-path"], parseResult.data["process-templates"]);
         core.setOutput("value", value);
         return true;
     }
