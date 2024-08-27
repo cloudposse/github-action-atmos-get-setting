@@ -10,7 +10,7 @@ export const processSingleSetting = async (processTemplates: boolean) => {
   const singleSetting = {
     component,
     stack,
-    "settings-path": settingsPath,
+    "settings-path": settingsPath
   };
 
   const parseResult = SingleSettingInput.safeParse(singleSetting);

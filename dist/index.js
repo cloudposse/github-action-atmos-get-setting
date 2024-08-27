@@ -29130,7 +29130,7 @@ const processSingleSetting = async (processTemplates) => {
     const singleSetting = {
         component,
         stack,
-        "settings-path": settingsPath,
+        "settings-path": settingsPath
     };
     const parseResult = _lib_1.SingleSettingInput.safeParse(singleSetting);
     if (parseResult.success) {
