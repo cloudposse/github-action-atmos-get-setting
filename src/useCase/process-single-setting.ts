@@ -19,8 +19,8 @@ export const processSingleSetting = async (processTemplates: boolean) => {
     const value = await getSetting(
       parseResult.data.component,
       parseResult.data.stack,
-      parseResult.data["settings-path"]
-      , processTemplates);
+      parseResult.data["settings-path"],
+      processTemplates);
     core.setOutput("value", value);
     return true;
   }
