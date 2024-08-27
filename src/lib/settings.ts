@@ -12,16 +12,14 @@ export const getNestedValue = (obj: any, path: string): any | undefined => {
 export const SingleSettingInput = z.object({
   component: z.string().trim().min(1),
   stack: z.string().trim().min(1),
-  "settings-path": z.string().trim().min(1),
-  "process-templates": z.boolean()
+  "settings-path": z.string().trim().min(1)
 });
 
 export const SettingInput = z.object({
   component: z.string().trim().min(1),
   stack: z.string().trim().min(1),
   settingsPath: z.string().trim().min(1),
-  outputPath: z.string().trim().min(1),
-  processTemplates: z.boolean()
+  outputPath: z.string().trim().min(1)
 });
 
 export const SettingsInput = z.array(SettingInput).min(1);

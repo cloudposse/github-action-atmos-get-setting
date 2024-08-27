@@ -15,15 +15,13 @@ describe("multipleSettings", () => {
           component: "foo",
           stack: "core-ue1-dev",
           settingsPath: "atmos_cli_config.components.terraform.base_path",
-          outputPath: "prop1",
-          processTemplates: true,
+          outputPath: "prop1"
         },
         {
           component: "foo",
           stack: "core-ue1-dev",
           settingsPath: "settings.level1.level2.level3.secrets-arn",
-          outputPath: "secretArn",
-          processTemplates: false
+          outputPath: "secretArn"
         }
       ])
     };
@@ -48,7 +46,7 @@ describe("multipleSettings", () => {
   });
 
   it("should return an object", async () => {
-    const result = await processMultipleSettings();
+    const result = await processMultipleSettings(true);
     expect(outputs["settings"]).toEqual(
       '{"prop1":"components/terraform","secretArn":"arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"}'
     );

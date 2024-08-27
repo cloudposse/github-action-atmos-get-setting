@@ -16,8 +16,7 @@ describe("settings-dto", () => {
         component: "component",
         stack: "stack",
         settingsPath: "settingsPath",
-        outputPath: "outputPath",
-        processTemplates: true
+        outputPath: "outputPath"
       }
     ];
     const result = SettingsInput.parse(input);
@@ -31,8 +30,7 @@ describe("getSingleSetting", () => {
       "foo",
       "core-ue1-dev",
       "atmos_cli_config.components.terraform.base_path",
-      true
-    );
+      true);
     expect(settingValue).toEqual("components/terraform");
   });
 });

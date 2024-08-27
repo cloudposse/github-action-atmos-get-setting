@@ -13,7 +13,6 @@ describe("singleSetting", () => {
       component: "foo",
       stack: "core-ue1-dev",
       "settings-path": "atmos_cli_config.components.terraform.base_path",
-      "process-templates": true
     };
 
     jest
@@ -36,7 +35,7 @@ describe("singleSetting", () => {
   });
 
   it("should return a value", async () => {
-    const result = await processSingleSetting();
+    const result = await processSingleSetting(true);
     expect(outputs["value"]).toEqual("components/terraform");
   });
 });
@@ -50,7 +49,6 @@ describe("singleSettingWithTemplatesEnabled", () => {
       component: "hello",
       stack: "core-ue1-dev",
       "settings-path": "settings.level1.example",
-      "process-templates": true
     };
 
     jest
@@ -73,7 +71,7 @@ describe("singleSettingWithTemplatesEnabled", () => {
   });
 
   it("should return a templated value", async () => {
-    const result = await processSingleSetting();
+    const result = await processSingleSetting(true);
     expect(outputs["value"]).toEqual(
       "core-ue1-dev"
     );
@@ -88,8 +86,7 @@ describe("singleSettingWithTemplatesDisabled", () => {
     const mockValues: any = {
       component: "hello",
       stack: "core-ue1-dev",
-      "settings-path": "settings.level1.example",
-      "process-templates": false
+      "settings-path": "settings.level1.example"
     };
 
     jest
@@ -112,7 +109,7 @@ describe("singleSettingWithTemplatesDisabled", () => {
   });
 
   it("should return a template placeholder", async () => {
-    const result = await processSingleSetting();
+    const result = await processSingleSetting(false);
     expect(outputs["value"]).toEqual(
       "{{ (printf \"%s-%s-%s\" .vars.tenant .vars.environment .vars.stage) }}"
     );
