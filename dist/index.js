@@ -28879,8 +28879,7 @@ exports.runAtmosDescribeComponent = void 0;
 const node_child_process_1 = __nccwpck_require__(7718);
 const runAtmosDescribeComponent = async (component, stack, processTemplates, cwd) => {
     const options = cwd ? { cwd } : {};
-    console.log(`atmos describe component ${component} -s ${stack} --format=json --process-templates=${processTemplates}`);
-    const command = `atmos describe component ${component} -s ${stack} --format=json --process-templates=${processTemplates}`;
+    const command = `atmos describe component ${component} -s ${stack} --format=json --process-templates=${String(processTemplates)}`;
     const atmos = (0, node_child_process_1.execSync)(command, options);
     return atmos.toString();
 };
@@ -28988,7 +28987,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const _useCase_1 = __nccwpck_require__(9264);
 (async () => {
     try {
-        let processTemplates = core.getBooleanInput("process-templates");
+        const processTemplates = core.getBooleanInput("process-templates");
         const singleResult = await (0, _useCase_1.processSingleSetting)(processTemplates);
         const multipleResult = await (0, _useCase_1.processMultipleSettings)(processTemplates);
         if (singleResult || multipleResult) {

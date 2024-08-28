@@ -3,7 +3,7 @@ import { processMultipleSettings, processSingleSetting } from "@useCase";
 
 (async () => {
   try {
-    let processTemplates = core.getBooleanInput("process-templates");
+    const processTemplates = core.getBooleanInput("process-templates");
     const singleResult = await processSingleSetting(processTemplates);
     const multipleResult = await processMultipleSettings(processTemplates);
 
