@@ -134,7 +134,6 @@ Which would provide the same output as passing only `secrets-arn` in `v0`
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
 | component | The atmos component extract the settings for. | N/A | false |
-| process-templates | Enable/disable processing of Go templates in Atmos stacks manifests. | true | false |
 | settings | The settings to extract. | N/A | false |
 | settings-path | The settings path using JSONPath expressions. | N/A | false |
 | stack | The atmos stack extract the settings for. | N/A | false |
