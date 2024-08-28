@@ -66,14 +66,6 @@ logs:
   verbose: false
   colors: true
 
-templates:
-  settings:
-    enabled: true
-    sprig:
-      enabled: true
-    gomplate:
-      enabled: true
-
 # Custom CLI commands
 commands:
   - name: tf
