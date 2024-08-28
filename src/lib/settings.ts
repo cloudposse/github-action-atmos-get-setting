@@ -31,10 +31,9 @@ export type SettingsInput = z.infer<typeof SettingsInput>;
 export const getSetting = async (
   component: string,
   stack: string,
-  settingsPath: string,
-  processTemplates: boolean
+  settingsPath: string
 ) => {
-  const cmdOutput = await runAtmosDescribeComponent(component, stack, processTemplates);
+  const cmdOutput = await runAtmosDescribeComponent(component, stack);
   const json = JSON.parse(cmdOutput);
 
   return getNestedValue(json, settingsPath);
