@@ -32,9 +32,10 @@ export const getSetting = async (
   component: string,
   stack: string,
   settingsPath: string,
-  processTemplates: boolean
+  processTemplates: boolean,
+  processFunctions: boolean
 ) => {
-  const cmdOutput = await runAtmosDescribeComponent(component, stack, processTemplates);
+  const cmdOutput = await runAtmosDescribeComponent(component, stack, processTemplates, processFunctions);
   const json = JSON.parse(cmdOutput);
 
   return getNestedValue(json, settingsPath);

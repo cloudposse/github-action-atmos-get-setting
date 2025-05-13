@@ -1,0 +1,12 @@
+components:
+  terraform:
+    hellofunction:
+      settings:
+        level1:
+          example: !terraform.output dependency .id
+      vars:
+        namespace: demo
+        tenant: core
+        environment: ue1
+        stage: dev
+        hello: world

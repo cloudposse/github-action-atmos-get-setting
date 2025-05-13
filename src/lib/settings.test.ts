@@ -30,7 +30,8 @@ describe("getSingleSetting", () => {
       "foo",
       "core-ue1-dev",
       "atmos_cli_config.components.terraform.base_path",
-      true);
+      true,
+      false);
     expect(settingValue).toEqual("components/terraform");
   });
 });

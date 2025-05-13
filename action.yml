@@ -21,6 +21,10 @@ inputs:
     description: "Enable/disable processing of Go templates in Atmos stacks manifests."
     required: false
     default: "true"
+  process-functions:
+    description: "Enable/disable processing of Terraform functions in Atmos stacks manifests."
+    required: false
+    default: "true"
 outputs:
   value:
     description: "The value of the setting when a single setting is returned."

@@ -1,6 +1,6 @@
 import { processMultipleSettings } from "./process-multiple-settings";
 import * as core from "@actions/core";
-import { expect, jest, it, describe } from "@jest/globals";
+import { expect, jest, it, describe, afterEach } from "@jest/globals";
 
 jest.mock("@actions/core");
 
@@ -46,7 +46,7 @@ describe("multipleSettings", () => {
   });
 
   it("should return an object", async () => {
-    const result = await processMultipleSettings(true);
+    const result = await processMultipleSettings(true, true);
     expect(outputs["settings"]).toEqual(
       '{"prop1":"components/terraform","secretArn":"arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"}'
     );
