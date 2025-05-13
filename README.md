@@ -134,6 +134,7 @@ Which would provide the same output as passing only `secrets-arn` in `v0`
 | Name | Description | Default | Required |
 |------|-------------|---------|----------|
 | component | The atmos component extract the settings for. | N/A | false |
+| process-functions | Enable/disable processing of Terraform functions in Atmos stacks manifests. | true | false |
 | process-templates | Enable/disable processing of Go templates in Atmos stacks manifests. | true | false |
 | settings | The settings to extract. | N/A | false |
 | settings-path | The settings path using JSONPath expressions. | N/A | false |
@@ -238,7 +239,7 @@ All other trademarks referenced herein are the property of their respective owne
 
 
 ---
-Copyright © 2017-2024 [Cloud Posse, LLC](https://cpco.io/copyright)
+Copyright © 2017-2025 [Cloud Posse, LLC](https://cpco.io/copyright)
 
 
 <a href="https://cloudposse.com/readme/footer/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/github-action-atmos-get-setting&utm_content=readme_footer_link"><img alt="README footer" src="https://cloudposse.com/readme/footer/img"/></a>
