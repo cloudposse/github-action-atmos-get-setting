@@ -93,3 +93,7 @@ jobs:
         with:
           expected: '{"prop1":"components/terraform","prop2":"arn:aws:secretsmanager:us-east-1:000000000000:secret:MySecret-PlMes3"}'
           actual: ${{ steps.get-setting.outputs.settings}}
+      - uses: nick-fields/assert-action@v1
+        with:
+          expected: components/terraform
+          actual: ${{ steps.get-setting.outputs.settings.prop1}}
