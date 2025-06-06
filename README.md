@@ -2,8 +2,11 @@
 
 <!-- markdownlint-disable -->
 <a href="https://cpco.io/homepage"><img src="https://github.com/cloudposse/github-action-atmos-get-setting/blob/main/.github/banner.png?raw=true" alt="Project Banner"/></a><br/>
-    <p align="right">
-<a href="https://github.com/cloudposse/github-action-atmos-get-setting/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/github-action-atmos-get-setting.svg" alt="Latest Release"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/badge.svg" alt="Slack Community"/></a></p>
+
+
+<p align="right"><a href="https://github.com/cloudposse/github-action-atmos-get-setting/releases/latest"><img src="https://img.shields.io/github/release/cloudposse/github-action-atmos-get-setting.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://github.com/cloudposse/github-action-atmos-get-setting/commits"><img src="https://img.shields.io/github/last-commit/cloudposse/github-action-atmos-get-setting.svg?style=for-the-badge" alt="Last Updated"/></a><a href="https://cloudposse.com/slack"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a>
+
+</p>
 <!-- markdownlint-restore -->
 
 <!--
@@ -127,27 +130,10 @@ Which would provide the same output as passing only `secrets-arn` in `v0`
 
 
 
-<!-- markdownlint-disable -->
-
-## Inputs
-
-| Name | Description | Default | Required |
-|------|-------------|---------|----------|
-| component | The atmos component extract the settings for. | N/A | false |
-| process-functions | Enable/disable processing of Terraform functions in Atmos stacks manifests. | true | false |
-| process-templates | Enable/disable processing of Go templates in Atmos stacks manifests. | true | false |
-| settings | The settings to extract. | N/A | false |
-| settings-path | The settings path using JSONPath expressions. | N/A | false |
-| stack | The atmos stack extract the settings for. | N/A | false |
 
 
-## Outputs
 
-| Name | Description |
-|------|-------------|
-| settings | The settings values when multiple settings are returned. |
-| value | The value of the setting when a single setting is returned. |
-<!-- markdownlint-restore -->
+
 
 
 ## Related Projects
