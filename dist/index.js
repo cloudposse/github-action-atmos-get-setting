@@ -28877,9 +28877,15 @@ exports.NEVER = parseUtil_1.INVALID;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.runAtmosDescribeComponent = void 0;
 const node_child_process_1 = __nccwpck_require__(7718);
-const runAtmosDescribeComponent = async (component, stack, cwd) => {
+const runAtmosDescribeComponent = async (component, stack, processTemplates, processFunctions, cwd) => {
     const options = cwd ? { cwd } : {};
-    const command = `atmos describe component ${component} -s ${stack} --format=json`;
+    let command = `atmos describe component ${component} -s ${stack} --format=json`;
+    if (!processFunctions) {
+        command += ` --process-functions=false`;
+    }
+    if (!processTemplates) {
+        command += ` --process-templates=false`;
+    }
     const atmos = (0, node_child_process_1.execSync)(command, options);
     return atmos.toString();
 };
@@ -28944,8 +28950,8 @@ exports.SettingInput = zod_1.z.object({
     outputPath: zod_1.z.string().trim().min(1)
 });
 exports.SettingsInput = zod_1.z.array(exports.SettingInput).min(1);
-const getSetting = async (component, stack, settingsPath) => {
-    const cmdOutput = await (0, atmos_1.runAtmosDescribeComponent)(component, stack);
+const getSetting = async (component, stack, settingsPath, processTemplates, processFunctions) => {
+    const cmdOutput = await (0, atmos_1.runAtmosDescribeComponent)(component, stack, processTemplates, processFunctions);
     const json = JSON.parse(cmdOutput);
     return (0, exports.getNestedValue)(json, settingsPath);
 };
@@ -28987,8 +28993,10 @@ const core = __importStar(__nccwpck_require__(2186));
 const _useCase_1 = __nccwpck_require__(9264);
 (async () => {
     try {
-        const singleResult = await (0, _useCase_1.processSingleSetting)();
-        const multipleResult = await (0, _useCase_1.processMultipleSettings)();
+        const processTemplates = core.getBooleanInput("process-templates");
+        const processFunctions = core.getBooleanInput("process-functions");
+        const singleResult = await (0, _useCase_1.processSingleSetting)(processTemplates, processFunctions);
+        const multipleResult = await (0, _useCase_1.processMultipleSettings)(processTemplates, processFunctions);
         if (singleResult || multipleResult) {
             core.info("result returned successfully");
         }
@@ -29065,7 +29073,7 @@ exports.processMultipleSettings = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const _lib_1 = __nccwpck_require__(6791);
 const YAML = __importStar(__nccwpck_require__(4083));
-const processMultipleSettings = async () => {
+const processMultipleSettings = async (processTemplates, processFunctions) => {
     const settingsInput = core.getInput("settings");
     if (settingsInput) {
         const yaml = YAML.parse(settingsInput);
@@ -29075,7 +29083,7 @@ const processMultipleSettings = async () => {
             const output = await settings.reduce(async (accPromise, item) => {
                 const acc = await accPromise;
                 const { outputPath, ...rest } = item;
-                const result = await (0, _lib_1.getSetting)(item.component, item.stack, item.settingsPath);
+                const result = await (0, _lib_1.getSetting)(item.component, item.stack, item.settingsPath, processTemplates, processFunctions);
                 return { ...acc, [outputPath]: result };
             }, Promise.resolve({}));
             core.setOutput("settings", JSON.stringify(output));
@@ -29121,7 +29129,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.processSingleSetting = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const _lib_1 = __nccwpck_require__(6791);
-const processSingleSetting = async () => {
+const processSingleSetting = async (processTemplates, processFunctions) => {
     const component = core.getInput("component");
     const stack = core.getInput("stack");
     const settingsPath = core.getInput("settings-path");
@@ -29132,7 +29140,7 @@ const processSingleSetting = async () => {
     };
     const parseResult = _lib_1.SingleSettingInput.safeParse(singleSetting);
     if (parseResult.success) {
-        const value = await (0, _lib_1.getSetting)(parseResult.data.component, parseResult.data.stack, parseResult.data["settings-path"]);
+        const value = await (0, _lib_1.getSetting)(parseResult.data.component, parseResult.data.stack, parseResult.data["settings-path"], processTemplates, processFunctions);
         core.setOutput("value", value);
         return true;
     }
@@ -32387,19 +32395,19 @@ function foldNewline(source, offset) {
     return { fold, offset };
 }
 const escapeCodes = {
-    '0': '\0',
-    a: '\x07',
-    b: '\b',
-    e: '\x1b',
-    f: '\f',
-    n: '\n',
-    r: '\r',
-    t: '\t',
-    v: '\v',
-    N: '\u0085',
-    _: '\u00a0',
-    L: '\u2028',
-    P: '\u2029',
+    '0': '\0', // null character
+    a: '\x07', // bell character
+    b: '\b', // backspace
+    e: '\x1b', // escape character
+    f: '\f', // form feed
+    n: '\n', // line feed
+    r: '\r', // carriage return
+    t: '\t', // horizontal tab
+    v: '\v', // vertical tab
+    N: '\u0085', // Unicode next line
+    _: '\u00a0', // Unicode non-breaking space
+    L: '\u2028', // Unicode line separator
+    P: '\u2029', // Unicode paragraph separator
     ' ': ' ',
     '"': '"',
     '/': '/',
@@ -37386,7 +37394,7 @@ var Scalar = __nccwpck_require__(9338);
 var stringifyString = __nccwpck_require__(6226);
 
 const binary = {
-    identify: value => value instanceof Uint8Array,
+    identify: value => value instanceof Uint8Array, // Buffer inherits from Uint8Array
     default: false,
     tag: 'tag:yaml.org,2002:binary',
     /**
@@ -38359,7 +38367,6 @@ exports.stringify = stringify;
 "use strict";
 
 
-var Collection = __nccwpck_require__(3466);
 var identity = __nccwpck_require__(5589);
 var stringify = __nccwpck_require__(8409);
 var stringifyComment = __nccwpck_require__(5182);
@@ -38481,7 +38488,7 @@ function stringifyFlowCollection({ comment, items }, ctx, { flowChars, itemInden
     else {
         if (!reqNewline) {
             const len = lines.reduce((sum, line) => sum + line.length + 2, 2);
-            reqNewline = len > Collection.Collection.maxFlowStringSingleLineLength;
+            reqNewline = ctx.options.lineWidth > 0 && len > ctx.options.lineWidth;
         }
         if (reqNewline) {
             str = start;

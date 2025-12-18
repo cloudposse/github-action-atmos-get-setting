@@ -3,8 +3,10 @@ import { processMultipleSettings, processSingleSetting } from "@useCase";
 
 (async () => {
   try {
-    const singleResult = await processSingleSetting();
-    const multipleResult = await processMultipleSettings();
+    const processTemplates = core.getBooleanInput("process-templates");
+    const processFunctions = core.getBooleanInput("process-functions");
+    const singleResult = await processSingleSetting(processTemplates, processFunctions);
+    const multipleResult = await processMultipleSettings(processTemplates, processFunctions);
 
     if (singleResult || multipleResult) {
       core.info("result returned successfully");
