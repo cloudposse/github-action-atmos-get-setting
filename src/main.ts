@@ -5,8 +5,9 @@ import { processMultipleSettings, processSingleSetting } from "@useCase";
   try {
     const processTemplates = core.getBooleanInput("process-templates");
     const processFunctions = core.getBooleanInput("process-functions");
-    const singleResult = await processSingleSetting(processTemplates, processFunctions);
-    const multipleResult = await processMultipleSettings(processTemplates, processFunctions);
+    const atmosProfile = core.getInput("atmos-profile") || undefined;
+    const singleResult = await processSingleSetting(processTemplates, processFunctions, atmosProfile);
+    const multipleResult = await processMultipleSettings(processTemplates, processFunctions, atmosProfile);
 
     if (singleResult || multipleResult) {
       core.info("result returned successfully");

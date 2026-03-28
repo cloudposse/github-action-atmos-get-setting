@@ -2,7 +2,7 @@ import * as core from "@actions/core";
 import { getSetting, SingleSettingInput } from "@lib";
 import * as YAML from "yaml";
 
-export const processSingleSetting = async (processTemplates: boolean, processFunctions: boolean) => {
+export const processSingleSetting = async (processTemplates: boolean, processFunctions: boolean, atmosProfile?: string) => {
   const component = core.getInput("component");
   const stack = core.getInput("stack");
   const settingsPath = core.getInput("settings-path");
@@ -21,7 +21,8 @@ export const processSingleSetting = async (processTemplates: boolean, processFun
       parseResult.data.stack,
       parseResult.data["settings-path"],
       processTemplates,
-      processFunctions);
+      processFunctions,
+      atmosProfile);
     core.setOutput("value", value);
     return true;
   }

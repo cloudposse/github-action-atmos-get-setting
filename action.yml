@@ -5,6 +5,9 @@ branding:
   icon: "terminal"
   color: "white"
 inputs:
+  atmos-profile:
+    description: The atmos profile to use
+    required: false
   component:
     description: The atmos component extract the settings for.
     required: false
@@ -31,5 +34,5 @@ outputs:
   settings:
     description: "The settings values when multiple settings are returned."
 runs:
-  using: "node20"
+  using: "node24"
   main: "dist/index.js"

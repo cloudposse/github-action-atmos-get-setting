@@ -28877,8 +28877,9 @@ exports.NEVER = parseUtil_1.INVALID;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.runAtmosDescribeComponent = void 0;
 const node_child_process_1 = __nccwpck_require__(7718);
-const runAtmosDescribeComponent = async (component, stack, processTemplates, processFunctions, cwd) => {
-    const options = cwd ? { cwd } : {};
+const runAtmosDescribeComponent = async (component, stack, processTemplates, processFunctions, atmosProfile, cwd) => {
+    const env = atmosProfile ? { ...process.env, ATMOS_PROFILE: atmosProfile } : process.env;
+    const options = cwd ? { cwd, env } : { env };
     let command = `atmos describe component ${component} -s ${stack} --format=json`;
     if (!processFunctions) {
         command += ` --process-functions=false`;
@@ -28886,8 +28887,16 @@ const runAtmosDescribeComponent = async (component, stack, processTemplates, pro
     if (!processTemplates) {
         command += ` --process-templates=false`;
     }
+    // core.info(`Running command: ${command}`);
     const atmos = (0, node_child_process_1.execSync)(command, options);
-    return atmos.toString();
+    const rawOutput = atmos.toString();
+    // core.info(`Command output: ${rawOutput}`);
+    const jsonStart = rawOutput.indexOf('{');
+    if (jsonStart === -1) {
+        throw new Error('No JSON object found in atmos output');
+    }
+    const output = rawOutput.substring(jsonStart);
+    return output;
 };
 exports.runAtmosDescribeComponent = runAtmosDescribeComponent;
 
@@ -28950,8 +28959,8 @@ exports.SettingInput = zod_1.z.object({
     outputPath: zod_1.z.string().trim().min(1)
 });
 exports.SettingsInput = zod_1.z.array(exports.SettingInput).min(1);
-const getSetting = async (component, stack, settingsPath, processTemplates, processFunctions) => {
-    const cmdOutput = await (0, atmos_1.runAtmosDescribeComponent)(component, stack, processTemplates, processFunctions);
+const getSetting = async (component, stack, settingsPath, processTemplates, processFunctions, atmosProfile) => {
+    const cmdOutput = await (0, atmos_1.runAtmosDescribeComponent)(component, stack, processTemplates, processFunctions, atmosProfile);
     const json = JSON.parse(cmdOutput);
     return (0, exports.getNestedValue)(json, settingsPath);
 };
@@ -28995,8 +29004,9 @@ const _useCase_1 = __nccwpck_require__(9264);
     try {
         const processTemplates = core.getBooleanInput("process-templates");
         const processFunctions = core.getBooleanInput("process-functions");
-        const singleResult = await (0, _useCase_1.processSingleSetting)(processTemplates, processFunctions);
-        const multipleResult = await (0, _useCase_1.processMultipleSettings)(processTemplates, processFunctions);
+        const atmosProfile = core.getInput("atmos-profile") || undefined;
+        const singleResult = await (0, _useCase_1.processSingleSetting)(processTemplates, processFunctions, atmosProfile);
+        const multipleResult = await (0, _useCase_1.processMultipleSettings)(processTemplates, processFunctions, atmosProfile);
         if (singleResult || multipleResult) {
             core.info("result returned successfully");
         }
@@ -29073,19 +29083,31 @@ exports.processMultipleSettings = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const _lib_1 = __nccwpck_require__(6791);
 const YAML = __importStar(__nccwpck_require__(4083));
-const processMultipleSettings = async (processTemplates, processFunctions) => {
+const processMultipleSettings = async (processTemplates, processFunctions, atmosProfile) => {
     const settingsInput = core.getInput("settings");
     if (settingsInput) {
         const yaml = YAML.parse(settingsInput);
         const parseResult = _lib_1.SettingsInput.safeParse(yaml);
         if (parseResult.success && parseResult.data.length > 0) {
             const settings = parseResult.data;
-            const output = await settings.reduce(async (accPromise, item) => {
-                const acc = await accPromise;
-                const { outputPath, ...rest } = item;
-                const result = await (0, _lib_1.getSetting)(item.component, item.stack, item.settingsPath, processTemplates, processFunctions);
-                return { ...acc, [outputPath]: result };
-            }, Promise.resolve({}));
+            // Group settings by (component, stack) to avoid redundant atmos calls
+            const groups = new Map();
+            for (const item of settings) {
+                const key = `${item.component}\0${item.stack}`;
+                if (!groups.has(key)) {
+                    groups.set(key, []);
+                }
+                groups.get(key).push(item);
+            }
+            const output = {};
+            for (const [key, items] of groups) {
+                const { component, stack } = items[0];
+                const cmdOutput = await (0, _lib_1.runAtmosDescribeComponent)(component, stack, processTemplates, processFunctions, atmosProfile);
+                const json = JSON.parse(cmdOutput);
+                for (const item of items) {
+                    output[item.outputPath] = (0, _lib_1.getNestedValue)(json, item.settingsPath);
+                }
+            }
             core.setOutput("settings", JSON.stringify(output));
             return true;
         }
@@ -29129,7 +29151,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.processSingleSetting = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const _lib_1 = __nccwpck_require__(6791);
-const processSingleSetting = async (processTemplates, processFunctions) => {
+const processSingleSetting = async (processTemplates, processFunctions, atmosProfile) => {
     const component = core.getInput("component");
     const stack = core.getInput("stack");
     const settingsPath = core.getInput("settings-path");
@@ -29140,7 +29162,7 @@ const processSingleSetting = async (processTemplates, processFunctions) => {
     };
     const parseResult = _lib_1.SingleSettingInput.safeParse(singleSetting);
     if (parseResult.success) {
-        const value = await (0, _lib_1.getSetting)(parseResult.data.component, parseResult.data.stack, parseResult.data["settings-path"], processTemplates, processFunctions);
+        const value = await (0, _lib_1.getSetting)(parseResult.data.component, parseResult.data.stack, parseResult.data["settings-path"], processTemplates, processFunctions, atmosProfile);
         core.setOutput("value", value);
         return true;
     }
