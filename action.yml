@@ -31,5 +31,5 @@ outputs:
   settings:
     description: "The settings values when multiple settings are returned."
 runs:
-  using: "node20"
+  using: "node24"
   main: "dist/index.js"
