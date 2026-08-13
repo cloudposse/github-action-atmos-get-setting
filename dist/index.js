@@ -28878,7 +28878,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.runAtmosDescribeComponent = void 0;
 const node_child_process_1 = __nccwpck_require__(7718);
 const runAtmosDescribeComponent = async (component, stack, processTemplates, processFunctions, cwd) => {
-    const options = cwd ? { cwd } : {};
+    // Atmos editions >= 2026-07-17 default `describe.component.filter` to "schema",
+    // which drops computed sections like `atmos_cli_config` from the output.
+    // Force the full view so settings-paths keep resolving; respect an explicit override.
+    const env = {
+        ...process.env,
+        ATMOS_DESCRIBE_COMPONENT_FILTER: process.env.ATMOS_DESCRIBE_COMPONENT_FILTER ?? "full",
+    };
+    const options = cwd ? { cwd, env } : { env };
     let command = `atmos describe component ${component} -s ${stack} --format=json`;
     if (!processFunctions) {
         command += ` --process-functions=false`;

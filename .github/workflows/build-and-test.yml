@@ -32,9 +32,6 @@ jobs:
       - uses: cloudposse/github-action-setup-atmos@v2
         with:
           install-wrapper: false
-          # Pin to the last release where `atmos describe component` still emits `atmos_cli_config`;
-          # v1.225.0+ omits it entirely, breaking this action (upstream issue filed)
-          atmos-version: 1.224.0
       - name: run unit tests
         run: yarn test
 
@@ -53,9 +50,6 @@ jobs:
       - uses: cloudposse/github-action-setup-atmos@v2
         with:
           install-wrapper: false
-          # Pin to the last release where `atmos describe component` still emits `atmos_cli_config`;
-          # v1.225.0+ omits it entirely, breaking this action (upstream issue filed)
-          atmos-version: 1.224.0
       - uses: ./
         id: get-setting
         with:
@@ -82,9 +76,6 @@ jobs:
       - uses: cloudposse/github-action-setup-atmos@v2
         with:
           install-wrapper: false
-          # Pin to the last release where `atmos describe component` still emits `atmos_cli_config`;
-          # v1.225.0+ omits it entirely, breaking this action (upstream issue filed)
-          atmos-version: 1.224.0
       - uses: ./
         id: get-setting
         with:
