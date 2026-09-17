@@ -34,7 +34,7 @@ GitHub Action to retrieve a setting from [atmos](https://github.com/cloudposse/a
 
 
 > [!WARNING]
-> **Deprecated.** Migrate to [Atmos Native CI](https://atmos.tools/deprecated/github-actions/atmos-get-setting).
+> **Deprecated.** Migrate to [Atmos Native CI](https://atmos.tools/ci).
 
 
 
