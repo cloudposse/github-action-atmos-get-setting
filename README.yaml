@@ -37,11 +37,10 @@ related: []
 # Short description of this project
 description: GitHub Action to retrieve a setting from [atmos](https://github.com/cloudposse/atmos) configuration.
 
-deprecation_notice: |-
+introduction: |-
   > [!WARNING]
   > **Deprecated.** Migrate to [Atmos Native CI](https://atmos.tools/ci).
 
-introduction: |-
   This action is deprecated in favor of Atmos Native CI. See the migration guide at
   https://atmos.tools/deprecated/github-actions/atmos-get-setting for the equivalent built-in
   commands (`atmos list settings --query` / `atmos describe component --query`) and how to move your workflow over.
